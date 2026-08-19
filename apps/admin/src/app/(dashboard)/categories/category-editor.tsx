@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Loader2, Save } from "lucide-react";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { z } from "zod";
 
 const FormSchema = CategorySchema.extend({
@@ -28,7 +29,7 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
   const queryClient = useQueryClient();
   const isEditing = !!category;
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<Category>({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<Category>({
     resolver: zodResolver(FormSchema) as any,
     defaultValues: {
       id: "",
@@ -112,8 +113,13 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
 
             <div className="space-y-2">
               <Label>Image URL</Label>
-              <Input {...register("image.url")} placeholder="https://cdn.jsdelivr.net/gh/..." />
-              <p className="text-xs text-muted-foreground">Enter a CDN URL for the category image.</p>
+              <ImageUpload
+                repo="products"
+                value={watch("image.url") || ""}
+                onChange={(url) => setValue("image.url", url, { shouldValidate: true })}
+              />
+              {errors.image?.url && <p className="text-sm text-destructive">{errors.image.url.message}</p>}
+              <p className="text-xs text-muted-foreground">Upload an image for the category.</p>
             </div>
 
             <div className="space-y-2">

@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; img-src 'self' cdn.jsdelivr.net data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' cdn.jsdelivr.net",
+            value: "default-src 'self'; img-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev",
           }
         ],
       },

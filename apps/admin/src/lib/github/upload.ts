@@ -41,7 +41,11 @@ export async function uploadToGithub(
     throw new Error(`GitHub Upload Failed: ${error.message || "Unknown error"}`);
   }
 
-  // The GitHub API might take a few seconds to flush to jsDelivr. 
-  // Returning the jsDelivr URL mapping to the 'main' branch.
+  // Use the Cloudflare Pages CDN for product assets
+  if (repoName === "omkara-assets-products") {
+    return `https://omkara-cdn.pages.dev/${path}`;
+  }
+
+  // Fallback to jsDelivr for other repos
   return jsdelivrUrl(`${GITHUB_OWNER}/${repoName}`, path, "main");
 }
