@@ -7,6 +7,8 @@ import { CartSheet } from "@/components/cart/cart-sheet";
 import { StorefrontHydrator } from "@/components/layout/storefront-hydrator";
 import Script from "next/script";
 
+export const runtime = 'edge';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
