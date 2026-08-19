@@ -4,8 +4,6 @@ import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
 
-export const runtime = 'edge';
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
