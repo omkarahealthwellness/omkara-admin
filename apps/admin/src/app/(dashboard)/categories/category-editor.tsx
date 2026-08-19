@@ -12,6 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Loader2, Save } from "lucide-react";
+import { z } from "zod";
+
+const FormSchema = CategorySchema.extend({
+  slug: z.string().optional().or(z.literal("")),
+});
 
 interface CategoryEditorProps {
   open: boolean;
@@ -24,7 +29,7 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
   const isEditing = !!category;
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<Category>({
-    resolver: zodResolver(CategorySchema) as any,
+    resolver: zodResolver(FormSchema) as any,
     defaultValues: {
       id: "",
       name: "",

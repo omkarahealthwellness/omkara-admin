@@ -13,6 +13,11 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Loader2, Save } from "lucide-react";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { z } from "zod";
+
+const FormSchema = ProductSchema.extend({
+  slug: z.string().optional().or(z.literal("")),
+});
 
 interface ProductEditorProps {
   open: boolean;
@@ -25,7 +30,7 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
   const isEditing = !!product;
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<Product>({
-    resolver: zodResolver(ProductSchema) as any,
+    resolver: zodResolver(FormSchema) as any,
     defaultValues: {
       id: "",
       name: "",
