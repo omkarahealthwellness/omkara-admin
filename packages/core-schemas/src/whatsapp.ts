@@ -4,8 +4,8 @@
  * Takes a cart state + WhatsApp config → produces the wa.me deep link URL.
  * All token substitution is from a closed whitelist — no eval, no injection.
  */
-import { formatPaise, WHATSAPP_TOKENS } from './primitives.js';
-import type { CartLine } from './cart.js';
+import { formatPaise, WHATSAPP_TOKENS } from './primitives';
+import type { CartLine } from './cart';
 
 export interface WhatsAppSerializerInput {
   greeting: string;

@@ -4,7 +4,7 @@
  * Icons are from a closed emoji set — zero image weight.
  */
 import { z } from 'zod';
-import { UUID, HexColor } from './primitives.js';
+import { UUID, HexColor } from './primitives';
 
 export const TagSchema = z
   .object({

@@ -38,8 +38,8 @@ import {
   serializeWhatsAppMessage,
   buildWhatsAppUrl,
   WA_MESSAGE_MAX_LENGTH,
-} from './index.js';
-import type { CartLine, WhatsAppSerializerInput } from './index.js';
+} from './index';
+import type { CartLine, WhatsAppSerializerInput } from './index';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PRIMITIVES

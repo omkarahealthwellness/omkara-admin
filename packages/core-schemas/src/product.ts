@@ -8,7 +8,7 @@
  * - Money is integer paise everywhere — Conflict #4
  */
 import { z } from 'zod';
-import { MoneyPaise, Slug, FocalPoint, ProductStatus, UUID, MediaAssetSchema } from './primitives.js';
+import { MoneyPaise, Slug, FocalPoint, ProductStatus, UUID, MediaAssetSchema } from './primitives';
 
 // ─── Variant ────────────────────────────────────────────────────────────────
 

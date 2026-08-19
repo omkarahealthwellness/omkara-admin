@@ -14,10 +14,10 @@ import {
   HeroSchema,
   WhatsAppTemplatesSchema,
   UIConfigSchema,
-} from './store.js';
-import { CategorySchema } from './category.js';
-import { ProductSchema } from './product.js';
-import { TagSchema } from './tag.js';
+} from './store';
+import { CategorySchema } from './category';
+import { ProductSchema } from './product';
+import { TagSchema } from './tag';
 
 // ─── Strict Manifest (used by admin at publish time) ────────────────────────
 

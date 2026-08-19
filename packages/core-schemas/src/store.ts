@@ -3,7 +3,7 @@
  * These define the "chrome" of the site — everything not product-specific.
  */
 import { z } from 'zod';
-import { HexColor, FocalPoint, BorderRadius, NavIcon, TokenizedString, MediaAssetSchema } from './primitives.js';
+import { HexColor, FocalPoint, BorderRadius, NavIcon, TokenizedString, MediaAssetSchema } from './primitives';
 
 // ─── Store Settings ─────────────────────────────────────────────────────────
 

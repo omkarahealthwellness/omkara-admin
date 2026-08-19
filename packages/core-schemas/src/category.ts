@@ -3,7 +3,7 @@
  * Each category has its own theme color, layout style, and display limit.
  */
 import { z } from 'zod';
-import { UUID, Slug, HexColor, LayoutStyle, MediaAssetSchema } from './primitives.js';
+import { UUID, Slug, HexColor, LayoutStyle, MediaAssetSchema } from './primitives';
 
 export const CategorySchema = z
   .object({

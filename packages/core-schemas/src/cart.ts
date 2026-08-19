@@ -8,7 +8,7 @@
  * with incrementing quantity, not become two separate lines.
  */
 import { z } from 'zod';
-import { MoneyPaise } from './primitives.js';
+import { MoneyPaise } from './primitives';
 
 // ─── Cart Line ──────────────────────────────────────────────────────────────
 
