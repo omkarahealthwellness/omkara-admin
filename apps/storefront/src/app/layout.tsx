@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Omkara - Premium Quality Goods",
     description: "Authentically sourced, minimally processed premium goods crafted for your well-being.",
-    url: "https://omkara.com",
+    url: "https://omkara-store.pages.dev",
     siteName: "Omkara",
     images: [
       {
