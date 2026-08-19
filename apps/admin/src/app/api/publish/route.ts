@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import type { KVNamespace } from "@cloudflare/workers-types";
 import { ManifestSchema } from "@omkara/core-schemas";
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, doc, getDoc } from "firebase/firestore";
