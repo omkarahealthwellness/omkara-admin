@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@hookform/resolvers": "^5.9.1",
     "@omkara/core-schemas": "*",
     "@omkara/ui-tokens": "*",
