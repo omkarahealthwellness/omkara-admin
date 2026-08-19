@@ -19,7 +19,7 @@ interface TagEditorProps {
   tag: Tag | null;
 }
 
-const ICONS = ["none", "leaf", "flame", "sparkle", "droplet", "shield"] as const;
+const ICONS = ["🌱", "🔥", "✨", "💧", "🛡️"];
 
 export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
   const queryClient = useQueryClient();
@@ -30,7 +30,9 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
     defaultValues: {
       id: "",
       name: "",
-      icon: "none",
+      icon: "🌱",
+      color: "#16a34a",
+      sortOrder: 0,
     }
   });
 
@@ -41,15 +43,17 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
       reset({
         id: "tag_" + Date.now().toString(),
         name: "",
-        icon: "none",
+        icon: "🌱",
+        color: "#16a34a",
+        sortOrder: 0,
       });
     }
   }, [tag, reset]);
 
   const mutation = useMutation({
     mutationFn: async (data: Tag) => {
-      // Auto-generate slug style ID if missing
-      if (!data.id || data.id.startsWith("tag_")) {
+      // Auto-generate slug style ID if missing or just a timestamp
+      if (!data.id || data.id.startsWith("tag_1")) {
         data.id = "tag_" + data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
       }
       await setDoc(doc(db, "tags", data.id), data, { merge: true });
@@ -86,21 +90,21 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
             </div>
 
             <div className="space-y-2">
-              <Label>System ID</Label>
-              <Input {...register("id")} placeholder="Leave blank to auto-generate" disabled={isEditing} />
-              <p className="text-xs text-muted-foreground">Internal identifier. Cannot be changed after creation.</p>
+              <Label>Icon Emoji (Max 2 chars) *</Label>
+              <Input {...register("icon")} placeholder="e.g. 🌱" maxLength={2} />
+              {errors.icon && <p className="text-sm text-destructive">{errors.icon.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label>Icon</Label>
-              <select 
-                {...register("icon")}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              >
-                {ICONS.map(i => (
-                  <option key={i} value={i}>{i.charAt(0).toUpperCase() + i.slice(1)}</option>
-                ))}
-              </select>
+              <Label>Tag Color (Hex) *</Label>
+              <Input {...register("color")} type="color" className="h-10 p-1 cursor-pointer" />
+              {errors.color && <p className="text-sm text-destructive">{errors.color.message}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Sort Order</Label>
+              <Input type="number" {...register("sortOrder", { valueAsNumber: true })} />
+              {errors.sortOrder && <p className="text-sm text-destructive">{errors.sortOrder.message}</p>}
             </div>
           </div>
 
