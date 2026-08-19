@@ -3,10 +3,10 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { doc, setDoc } from "firebase/firestore";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
-import { Product, ProductSchema } from "@omkara/core-schemas";
+import { Product, ProductSchema, Category } from "@omkara/core-schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +28,14 @@ interface ProductEditorProps {
 export function ProductEditor({ open, onOpenChange, product }: ProductEditorProps) {
   const queryClient = useQueryClient();
   const isEditing = !!product;
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const snap = await getDocs(collection(db, "categories"));
+      return snap.docs.map(doc => doc.data() as Category);
+    }
+  });
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<Product>({
     resolver: zodResolver(FormSchema) as any,
@@ -55,7 +63,9 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
   // Reset form when product changes
   useEffect(() => {
     if (product) {
-      reset(product);
+      const p = JSON.parse(JSON.stringify(product));
+      p.variants[0].price = Math.floor(p.variants[0].price / 100);
+      reset(p);
     } else {
       reset({
         id: "prod_" + Date.now().toString(),
@@ -83,6 +93,8 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
       if (!data.slug) {
         data.slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
       }
+      // Convert INR back to Paise for database
+      data.variants[0].price = Math.round(data.variants[0].price * 100);
       await setDoc(doc(db, "products", data.id), data, { merge: true });
     },
     onSuccess: () => {
@@ -133,10 +145,7 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
-            <div className="space-y-2">
-              <Label>Slug</Label>
-              <Input {...register("slug")} placeholder="Leave blank to auto-generate" />
-            </div>
+            {/* Slug removed from UI - auto generated */}
 
             <div className="space-y-2">
               <Label>Short Description</Label>
@@ -157,15 +166,22 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
 
             {/* Pricing */}
             <div className="space-y-2">
-              <Label>Default Variant Price (Paise) *</Label>
+              <Label>Price (₹) *</Label>
               <Input type="number" {...register("variants.0.price", { valueAsNumber: true })} />
-              <p className="text-xs text-muted-foreground">100 paise = 1 INR</p>
               {errors.variants?.[0]?.price && <p className="text-sm text-destructive">{errors.variants[0].price.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label>Category ID *</Label>
-              <Input {...register("categoryId")} placeholder="e.g. cat_sprouts" />
+              <Label>Category *</Label>
+              <select 
+                {...register("categoryId")}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm"
+              >
+                <option value="">Select a category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
               {errors.categoryId && <p className="text-sm text-destructive">{errors.categoryId.message}</p>}
             </div>
             

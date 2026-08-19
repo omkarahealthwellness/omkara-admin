@@ -101,10 +101,7 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
-            <div className="space-y-2">
-              <Label>Slug</Label>
-              <Input {...register("slug")} placeholder="Leave blank to auto-generate" />
-            </div>
+            {/* Slug removed from UI - auto generated */}
 
             <div className="space-y-2">
               <Label>Sort Order</Label>
