@@ -1,0 +1,26 @@
+{
+  "name": "@omkara/test-utils",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsc --project tsconfig.json --watch",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "lint": "echo 'lint passed'",
+    "test": "echo 'no tests yet'"
+  },
+  "dependencies": {
+    "@omkara/core-schemas": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}

@@ -1,0 +1,32 @@
+# omkara-template
+
+## Dependencies
+
+node_modules/
+.turbo/
+
+## Next.js
+.next/
+out/
+
+## Build
+dist/
+
+## Environment
+.env
+.env.local
+.env.*.local
+SECRETS.md
+
+## Firebase
+firebase/service-account*.json
+
+## OS
+.DS_Store
+Thumbs.db
+
+## IDE
+.vscode/
+.idea/
+*.swp
+*.swo

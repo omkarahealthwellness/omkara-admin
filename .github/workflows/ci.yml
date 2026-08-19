@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx turbo run typecheck
+
+      - name: Lint
+        run: npx turbo run lint
+
+      - name: Unit & Contract Tests
+        run: npx turbo run test
+
+      - name: Build all packages & apps
+        run: npx turbo run build
+
+      # ─── Security: Secret Scan ───────────────────────────────────────
+      - name: Secret scan — storefront build output
+        run: |
+          echo "Scanning storefront for leaked secrets..."
+          if grep -rI "SECRET\|PRIVATE_KEY\|service.account" apps/storefront/.next/ apps/storefront/out/ 2>/dev/null; then
+            echo "❌ POTENTIAL SECRET LEAK in storefront build output!"
+            exit 1
+          fi
+          echo "✅ No secrets found in storefront build"
+
+      # ─── Security: Framer Motion ban ─────────────────────────────────
+      - name: Verify no Framer Motion
+        run: |
+          if grep -rI "framer-motion" apps/ packages/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null; then
+            echo "❌ framer-motion import found! This is banned (Law L5)"
+            exit 1
+          fi
+          echo "✅ No framer-motion imports"
+
+      # ─── Security: No dangerouslySetInnerHTML ────────────────────────
+      - name: Verify no dangerouslySetInnerHTML
+        run: |
+          if grep -rI "dangerouslySetInnerHTML" apps/ packages/ --include="*.ts" --include="*.tsx" --include="*.jsx" 2>/dev/null; then
+            echo "❌ dangerouslySetInnerHTML found! XSS risk (S4)"
+            exit 1
+          fi
+          echo "✅ No dangerouslySetInnerHTML"
+
+      # ─── Universality: No hardcoded brand strings ────────────────────
+      - name: Verify no hardcoded Omkara strings in app code
+        run: |
+          # Allow in test fixtures, docs, and config — block in actual app code
+          HITS=$(grep -rI "Omkara\|omkara" apps/storefront/src/ apps/admin/src/ --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "test\|spec\|fixture\|mock" || true)
+          if [ -n "$HITS" ]; then
+            echo "❌ Hardcoded 'Omkara' string found in app code (Law L10):"
+            echo "$HITS"
+            exit 1
+          fi
+          echo "✅ No hardcoded brand strings"
