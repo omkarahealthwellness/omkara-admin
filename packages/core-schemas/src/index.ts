@@ -25,20 +25,20 @@ export {
   formatPaise,
   parsePaise,
   jsdelivrUrl,
-} from './primitives.js';
-export type { TagIcon, WhatsAppToken, MediaAsset } from './primitives.js';
+} from './primitives';
+export type { TagIcon, WhatsAppToken, MediaAsset } from './primitives';
 
 // Product schemas
-export { VariantSchema, AddonSchema, ProductSchema } from './product.js';
-export type { Variant, Addon, Product } from './product.js';
+export { VariantSchema, AddonSchema, ProductSchema } from './product';
+export type { Variant, Addon, Product } from './product';
 
 // Category schema
-export { CategorySchema } from './category.js';
-export type { Category } from './category.js';
+export { CategorySchema } from './category';
+export type { Category } from './category';
 
 // Tag schema
-export { TagSchema } from './tag.js';
-export type { Tag } from './tag.js';
+export { TagSchema } from './tag';
+export type { Tag } from './tag';
 
 // Store schemas
 export {
@@ -47,14 +47,14 @@ export {
   HeroSchema,
   WhatsAppTemplatesSchema,
   UIConfigSchema,
-} from './store.js';
+} from './store';
 export type {
   StoreSettings,
   NavigationItem,
   Hero,
   WhatsAppTemplates,
   UIConfig,
-} from './store.js';
+} from './store';
 
 // Manifest schema
 export {
@@ -63,8 +63,8 @@ export {
   LatestPointerSchema,
   CURRENT_MANIFEST_VERSION,
   MAX_MANIFEST_SIZE_BYTES,
-} from './manifest.js';
-export type { Manifest, LatestPointer } from './manifest.js';
+} from './manifest';
+export type { Manifest, LatestPointer } from './manifest';
 
 // Cart schemas & logic
 export {
@@ -75,8 +75,8 @@ export {
   cartTotal,
   CART_STORAGE_KEY,
   CART_EXPIRY_MS,
-} from './cart.js';
-export type { CartLine, CartState } from './cart.js';
+} from './cart';
+export type { CartLine, CartState } from './cart';
 
 // WhatsApp serializer
 export {
@@ -84,5 +84,5 @@ export {
   buildWhatsAppUrl,
   WA_MESSAGE_WARN_LENGTH,
   WA_MESSAGE_MAX_LENGTH,
-} from './whatsapp.js';
-export type { WhatsAppSerializerInput } from './whatsapp.js';
+} from './whatsapp';
+export type { WhatsAppSerializerInput } from './whatsapp';
