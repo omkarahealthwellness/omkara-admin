@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing Bearer Token' }, { status: 401 });
     }
 
-    const body = await req.json();
+    const body = (await req.json()) as { manifest?: unknown };
     const manifest = body?.manifest;
 
     if (!manifest) {
