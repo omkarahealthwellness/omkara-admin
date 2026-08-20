@@ -22,9 +22,11 @@ export function CartTrigger() {
     <Button
       variant="outline"
       onClick={openSheet}
-      className="border-[#FDF5E6]/30 text-[#FDF5E6] hover:bg-[#FDF5E6]/10 font-medium flex items-center gap-2 bg-transparent"
+      className={`border-[#FDF5E6]/30 text-[#FDF5E6] hover:bg-[#FDF5E6]/10 font-medium flex items-center gap-2 bg-transparent transition-transform duration-300 ${
+        mounted && totalItems > 0 ? 'scale-105 shadow-[0_0_15px_rgba(253,245,230,0.3)]' : 'scale-100'
+      }`}
     >
-      <ShoppingBag className="h-4 w-4" />
+      <ShoppingBag className={`h-4 w-4 ${mounted && totalItems > 0 ? 'animate-pulse' : ''}`} />
       <span>Cart {mounted && totalItems > 0 ? `(${totalItems})` : ''}</span>
     </Button>
   );

@@ -45,7 +45,7 @@ export function MobileNav() {
         <div className="relative">
           <ShoppingBag className="h-5 w-5" />
           {mounted && itemsCount > 0 && (
-            <span className="absolute -top-1.5 -right-2 bg-primary text-primary-foreground text-[8px] font-bold h-4 w-4 flex items-center justify-center rounded-full">
+            <span className="absolute -top-1.5 -right-2 bg-primary text-primary-foreground text-[8px] font-bold h-4 w-4 flex items-center justify-center rounded-full animate-bounce">
               {itemsCount}
             </span>
           )}

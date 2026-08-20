@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Manrope, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Noto_Sans_Devanagari, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -10,9 +10,15 @@ import Script from 'next/script';
 
 export const runtime = 'edge';
 
-const manrope = Manrope({
+const inter = Inter({
   variable: '--font-sans',
   subsets: ['latin'],
+});
+
+const notoSansDevanagari = Noto_Sans_Devanagari({
+  variable: '--font-devanagari',
+  subsets: ['devanagari'],
+  weight: ['400', '500', '700'],
 });
 
 const cormorant = Cormorant_Garamond({
@@ -80,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${cormorant.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${cormorant.variable} ${notoSansDevanagari.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <Header />
         <main className="flex-1 pb-16 md:pb-0">{children}</main>
