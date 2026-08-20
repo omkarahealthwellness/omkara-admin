@@ -2,6 +2,7 @@ import { getManifest } from '@/lib/kv-manifest';
 import Link from 'next/link';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { CategorySection } from './category-section';
+import { CategoryNav } from './category-nav';
 
 export const runtime = 'edge';
 export const revalidate = 60; // Fresher content — revalidate every 60s

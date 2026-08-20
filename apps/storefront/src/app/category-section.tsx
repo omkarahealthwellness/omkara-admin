@@ -54,7 +54,7 @@ export function CategorySection({ category, products, storeName }: CategorySecti
                 {product.primaryImage?.url ? (
                   <OptimizedImage
                     src={product.primaryImage.url}
-                    alt={product.primaryImage.altText || product.name}
+                    alt={product.primaryImage.alt || product.name}
                     className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                   />
                 ) : (
