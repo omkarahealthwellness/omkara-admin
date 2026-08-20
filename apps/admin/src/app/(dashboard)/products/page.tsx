@@ -18,7 +18,7 @@ export default function ProductsPage() {
     queryKey: ['products'],
     staleTime: 1000 * 60 * 2, // 2 minutes
     queryFn: async () => {
-      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+      const q = query(collection(db, 'products'), orderBy('sortOrder', 'asc'));
       const snap = await getDocs(q);
       return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Product);
     },

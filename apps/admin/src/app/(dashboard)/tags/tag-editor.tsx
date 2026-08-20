@@ -64,15 +64,6 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
 
   const mutation = useMutation({
     mutationFn: async (data: Tag) => {
-      // Auto-generate slug style ID if missing or just a timestamp
-      if (!data.id || data.id.startsWith('tag_1')) {
-        data.id =
-          'tag_' +
-          data.name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)+/g, '');
-      }
       await setDoc(doc(db, 'tags', data.id), data, { merge: true });
     },
     onSuccess: () => {

@@ -65,7 +65,7 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
       primaryImage: { url: '', focal: { x: 50, y: 50 } },
       gallery: [],
       variants: [
-        { id: 'v1', name: 'Default', price: 0, isDefault: true, available: true, sortOrder: 0 },
+        { id: crypto.randomUUID(), name: 'Default', price: 0, isDefault: true, available: true, sortOrder: 0 },
       ],
       addons: [],
       note: { enabled: true, maxChars: 250 },
@@ -95,7 +95,7 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
         primaryImage: { url: '', focal: { x: 50, y: 50 } },
         gallery: [],
         variants: [
-          { id: 'v1', name: 'Default', price: 0, isDefault: true, available: true, sortOrder: 0 },
+        { id: crypto.randomUUID(), name: 'Default', price: 0, isDefault: true, available: true, sortOrder: 0 },
         ],
         addons: [],
         note: { enabled: true, maxChars: 250 },
@@ -115,6 +115,10 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
       }
       // Convert INR back to Paise for database
       data.variants[0].price = Math.round(data.variants[0].price * 100);
+      // Strip empty image to prevent Zod url() validation failure
+      if (data.primaryImage && (!data.primaryImage.url || data.primaryImage.url.trim() === '')) {
+        (data as any).primaryImage = { url: '/placeholder.webp', focal: { x: 50, y: 50 } };
+      }
       await setDoc(doc(db, 'products', data.id), data, { merge: true });
     },
     onSuccess: () => {

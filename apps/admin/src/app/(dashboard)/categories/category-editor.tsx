@@ -84,6 +84,10 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/(^-|-$)+/g, '');
       }
+      // Strip empty image to prevent Zod url() validation failure
+      if (data.image && (!data.image.url || data.image.url.trim() === '')) {
+        delete (data as any).image;
+      }
       await setDoc(doc(db, 'categories', data.id), data, { merge: true });
     },
     onSuccess: () => {

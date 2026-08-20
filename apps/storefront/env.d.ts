@@ -1,3 +1,3 @@
 interface CloudflareEnv {
-  OMKARA_MANIFESTS: KVNamespace;
+  MANIFEST_KV: KVNamespace;
 }
