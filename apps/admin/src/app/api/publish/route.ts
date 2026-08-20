@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       manifestVersion: 1,
       contentHash,
       publishedAt: new Date().toISOString(),
-      store: settingsData.store || {
+      store: settingsData.storeSettings || settingsData.store || {
         businessName: 'Omkara',
         logo: { url: '/logo.svg' },
         phone: '+918560078208',
