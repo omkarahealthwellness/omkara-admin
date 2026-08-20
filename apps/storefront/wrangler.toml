@@ -1,6 +1,5 @@
 name = "omkara-storefront"
 pages_build_output_dir = ".vercel/output/static"
-account_id = "d59cdccc5f8113995cb2ac03851efeb3"
 compatibility_date = "2024-03-20"
 compatibility_flags = ["nodejs_compat"]
 
