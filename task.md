@@ -3,10 +3,12 @@
 ## Phase 0 — Foundation & Template Harvest (Days 1–3)
 
 ### 0.1 Account & Secrets Provisioning
+
 - [x] 0.1.1 — Document account setup requirements in README
 - [x] 0.1.2 — Create `.env.example` files for admin and storefront
 
 ### 0.2 Monorepo Scaffold
+
 - [x] 0.2.1 — Init Turborepo + npm workspaces + TypeScript strict
 - [ ] 0.2.2 — ESLint config (import restrictions, framer-motion ban, dangerouslySetInnerHTML ban)
 - [x] 0.2.3 — Prettier + shared configs
@@ -19,6 +21,7 @@
 - [x] 0.2.10 — Create CI skeleton (GitHub Actions: ci.yml, rules.yml)
 
 ### 0.3 Template Harvest
+
 - [x] 0.3.1 — Create `HARVEST_LOG.md`
 - [ ] 0.3.2 — Plan harvesting approach (documented, not yet cloned)
 
@@ -29,6 +32,7 @@
 ## Phase 1 — Core Schemas & Contracts (Days 4–6)
 
 ### 1.1 Schema Package
+
 - [x] 1.1.1 — Primitives (MoneyPaise, Slug, HexColor, FocalPoint, CloudinaryId, YouTubeId, TokenizedString)
 - [x] 1.1.2 — Utility functions (formatPaise, parsePaise, hashLine)
 - [x] 1.1.3 — Entity schemas (Variant, Addon, Tag, Category, Product)
@@ -44,6 +48,7 @@
 ---
 
 ## Phase 2 — Firebase Layer (Days 7–9)
+
 - [ ] 2.1 — Firestore data model definition
 - [x] 2.2 — Security rules (`firebase/firestore.rules`)
 - [x] 2.3 — `scripts/make-admin.mjs`
@@ -56,6 +61,7 @@
 ---
 
 ## Phase 3 — Publishing Engine (Days 10–13)
+
 - [ ] 3.1 — Draft assembler
 - [ ] 3.2 — Validation wall (ManifestSchema.strict + error drawer)
 - [ ] 3.3 — Size budget enforcer (≤300KB)
@@ -70,6 +76,7 @@
 ---
 
 ## Phase 4 — Admin Panel Features (Days 14–28)
+
 - [ ] 4.1 — Auth gate (route guard, idle timeout)
 - [ ] 4.2 — Dashboard home (widgets, usage gauges)
 - [ ] 4.3 — Store settings editor
@@ -88,6 +95,7 @@
 ---
 
 ## Phase 5 — Storefront (Days 29–41)
+
 - [ ] 5.1 — Boot + manifest loader
 - [ ] 5.2 — Shell: TopBar + Hero + BottomNav
 - [ ] 5.3 — Category rail + Product rails/grid
@@ -103,6 +111,7 @@
 ---
 
 ## Phase 6 — Cross-Cutting Hardening (Days 42–46)
+
 - [ ] 6.1 — Security pass (CSP, headers, secret scan)
 - [ ] 6.2 — Performance pass (bundle audit, font, code splitting)
 - [ ] 6.3 — Free-tier guardrails (admin dashboard gauges)
@@ -113,6 +122,7 @@
 ---
 
 ## Phase 7 — Launch & Operations (Days 47–50)
+
 - [ ] 7.1 — Content load (real products via admin)
 - [ ] 7.2 — UAT script (30-step)
 - [ ] 7.3 — QR run (5 devices)

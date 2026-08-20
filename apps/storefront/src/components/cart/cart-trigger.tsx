@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCartStore } from "@/lib/store/cart";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useCartSheet } from "@/lib/store/ui";
+import { useCartStore } from '@/lib/store/cart';
+import { Button } from '@/components/ui/button';
+import { ShoppingBag } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useCartSheet } from '@/lib/store/ui';
 
 export function CartTrigger() {
-  const items = useCartStore(state => state.lines);
-  const openSheet = useCartSheet(state => state.openSheet);
+  const items = useCartStore((state) => state.lines);
+  const openSheet = useCartSheet((state) => state.openSheet);
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch since localstorage is client-only
@@ -19,10 +19,10 @@ export function CartTrigger() {
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <Button 
-      variant="outline" 
+    <Button
+      variant="outline"
       onClick={openSheet}
-      className="border-crimson-spice/30 text-crimson-spice hover:bg-crimson-spice/5 font-medium flex items-center gap-2"
+      className="border-[#FDF5E6]/30 text-[#FDF5E6] hover:bg-[#FDF5E6]/10 font-medium flex items-center gap-2 bg-transparent"
     >
       <ShoppingBag className="h-4 w-4" />
       <span>Cart {mounted && totalItems > 0 ? `(${totalItems})` : ''}</span>

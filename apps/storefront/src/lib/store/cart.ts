@@ -13,11 +13,11 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       cartVersion: 1,
-      currency: "INR",
+      currency: 'INR',
       lines: [],
-      orderNote: "",
+      orderNote: '',
       lastTouchedAt: new Date().toISOString(),
-      
+
       addItem: (line) => {
         const lineId = hashLine(line.productId, line.variantId, line.addonIds || []);
         const { lines } = get();
@@ -43,21 +43,19 @@ export const useCartStore = create<CartStore>()(
 
       updateQuantity: (lineId, quantity) => {
         set((state) => ({
-          lines: state.lines.map((i) => 
-            i.lineId === lineId ? { ...i, quantity } : i
-          ),
+          lines: state.lines.map((i) => (i.lineId === lineId ? { ...i, quantity } : i)),
           lastTouchedAt: new Date().toISOString(),
         }));
       },
 
       clearCart: () => {
         set({ lines: [], lastTouchedAt: new Date().toISOString() });
-      }
+      },
     }),
     {
       name: 'omkara-cart', // name of item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage),
       version: 1,
-    }
-  )
+    },
+  ),
 );

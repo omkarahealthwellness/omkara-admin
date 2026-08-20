@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase/config";
-import { Category } from "@omkara/core-schemas";
-import { Button } from "@/components/ui/button";
-import { Plus, Search, Edit, Trash2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { CategoryEditor } from "./category-editor";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import { Category } from '@omkara/core-schemas';
+import { Button } from '@/components/ui/button';
+import { Plus, Search, Edit, Trash2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { CategoryEditor } from './category-editor';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function CategoriesPage() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
   const { data: categories = [], isLoading } = useQuery({
-    queryKey: ["categories"],
+    queryKey: ['categories'],
     staleTime: 1000 * 60 * 15, // 15 minutes
     queryFn: async () => {
-      const q = query(collection(db, "categories"), orderBy("displayOrder", "asc"));
+      const q = query(collection(db, 'categories'), orderBy('displayOrder', 'asc'));
       const snap = await getDocs(q);
-      return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Category));
-    }
+      return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Category);
+    },
   });
 
   const handleCreate = () => {
@@ -59,8 +59,12 @@ export default function CategoriesPage() {
       ) : categories.length === 0 ? (
         <div className="p-12 text-center bg-background rounded-lg border border-dashed">
           <h3 className="text-lg font-medium">No categories</h3>
-          <p className="text-sm text-muted-foreground mt-1">Get started by creating a new product category.</p>
-          <Button onClick={handleCreate} variant="outline" className="mt-4">Create Category</Button>
+          <p className="text-sm text-muted-foreground mt-1">
+            Get started by creating a new product category.
+          </p>
+          <Button onClick={handleCreate} variant="outline" className="mt-4">
+            Create Category
+          </Button>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -69,14 +73,23 @@ export default function CategoriesPage() {
               <CardContent className="p-0">
                 <div className="h-32 bg-muted relative border-b">
                   {cat.image?.url ? (
-                    <img src={cat.image.url} alt={cat.image.alt || cat.name} className="h-full w-full object-cover" />
+                    <img
+                      src={cat.image.url}
+                      alt={cat.image.alt || cat.name}
+                      className="h-full w-full object-cover"
+                    />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center text-muted-foreground/50">
                       No Image
                     </div>
                   )}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-                    <Button variant="secondary" size="icon" className="h-8 w-8 shadow-sm" onClick={() => handleEdit(cat)}>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="h-8 w-8 shadow-sm"
+                      onClick={() => handleEdit(cat)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button variant="destructive" size="icon" className="h-8 w-8 shadow-sm">
@@ -98,10 +111,10 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      <CategoryEditor 
-        open={isEditorOpen} 
-        onOpenChange={setIsEditorOpen} 
-        category={editingCategory} 
+      <CategoryEditor
+        open={isEditorOpen}
+        onOpenChange={setIsEditorOpen}
+        category={editingCategory}
       />
     </div>
   );

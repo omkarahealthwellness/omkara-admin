@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Omkara CDN Processor</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Omkara Image Processor</h1>
+        <p>Optimize locally, upload to GitHub, serve via jsDelivr.</p>
+      </header>
+      
+      <main>
+        <div class="card settings-card">
+          <h3>Settings</h3>
+          <div class="input-group">
+            <label for="gh-token">GitHub PAT (Fine-Grained):</label>
+            <input type="password" id="gh-token" placeholder="github_pat_..." />
+            <small>Requires `Contents: Read and write` on `omkara-assets-products`. Saved locally.</small>
+          </div>
+          <div class="input-group">
+            <label for="gh-folder">Folder (optional):</label>
+            <input type="text" id="gh-folder" placeholder="e.g., categories" />
+          </div>
+        </div>
+
+        <div class="card upload-card">
+          <h3>Upload Image</h3>
+          <div class="drop-zone" id="drop-zone">
+            <p>Drag & Drop an image here or click to browse</p>
+            <input type="file" id="file-input" accept="image/*" hidden />
+          </div>
+        </div>
+
+        <div id="processing-state" class="hidden">
+          <p id="status-text">Processing...</p>
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+        </div>
+
+        <div id="result-card" class="card hidden">
+          <h3>Success!</h3>
+          <p>Image uploaded and ready for jsDelivr.</p>
+          <div class="result-box">
+            <input type="text" id="result-url" readonly />
+            <button id="copy-btn">Copy URL</button>
+          </div>
+          <img id="preview-img" src="" alt="Preview" />
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

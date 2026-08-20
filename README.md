@@ -1,6 +1,7 @@
 # OMKARA Universal Template
 
 A business-agnostic, free-tier, universal food/retail catalog template with:
+
 - **Admin panel** — full CMS for products, categories, media, WhatsApp templates
 - **Public storefront** — static, PWA-enabled, WhatsApp checkout
 - **Publishing engine** — draft → validate → publish → rollback
@@ -17,17 +18,17 @@ packages/test-utils   → Fixtures & builders
 
 ## Tech Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js (App Router) |
-| UI | shadcn/ui + Tailwind CSS |
-| Validation | Zod (shared schemas) |
-| Auth | Firebase Auth (email/password + custom claims) |
-| Database | Firestore Spark (drafts only, admin-only) |
-| Images | GitHub + jsDelivr (immutable, versioned CDN) |
-| Video | YouTube (unlisted) + lite-youtube-embed |
-| Hosting | Cloudflare Pages (free) |
-| Manifest | Cloudflare Workers KV (versioned JSON) |
+| Layer      | Choice                                         |
+| ---------- | ---------------------------------------------- |
+| Framework  | Next.js (App Router)                           |
+| UI         | shadcn/ui + Tailwind CSS                       |
+| Validation | Zod (shared schemas)                           |
+| Auth       | Firebase Auth (email/password + custom claims) |
+| Database   | Firestore Spark (drafts only, admin-only)      |
+| Images     | GitHub + jsDelivr (immutable, versioned CDN)   |
+| Video      | YouTube (unlisted) + lite-youtube-embed        |
+| Hosting    | Cloudflare Pages (free)                        |
+| Manifest   | Cloudflare Workers KV (versioned JSON)         |
 
 ## Getting Started
 

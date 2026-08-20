@@ -368,7 +368,10 @@ describe('NavigationItemSchema', () => {
 
   it('REJECTS data: URL', () => {
     expect(() =>
-      NavigationItemSchema.parse({ ...validNavItem, url: 'data:text/html,<script>alert(1)</script>' }),
+      NavigationItemSchema.parse({
+        ...validNavItem,
+        url: 'data:text/html,<script>alert(1)</script>',
+      }),
     ).toThrow();
   });
 });

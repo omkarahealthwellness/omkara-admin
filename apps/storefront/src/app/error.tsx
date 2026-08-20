@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { AlertCircle } from "lucide-react";
-import Link from "next/link";
+import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { AlertCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function GlobalError({
   error,
@@ -14,7 +14,7 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service like Sentry
-    console.error("Global boundary caught error:", error);
+    console.error('Global boundary caught error:', error);
   }, [error]);
 
   return (
@@ -23,7 +23,7 @@ export default function GlobalError({
         <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-destructive">
           <AlertCircle className="h-8 w-8" />
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="text-2xl font-serif font-bold text-gray-900">Something went wrong</h2>
           <p className="text-muted-foreground text-sm">
@@ -32,8 +32,8 @@ export default function GlobalError({
         </div>
 
         <div className="flex flex-col gap-3 pt-4">
-          <Button 
-            onClick={() => reset()} 
+          <Button
+            onClick={() => reset()}
             className="w-full bg-crimson-spice hover:bg-crimson-spice/90 text-white"
           >
             Try again

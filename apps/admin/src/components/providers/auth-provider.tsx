@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { User, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase/config";
-import { useRouter, usePathname } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { User, onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase/config';
+import { useRouter, usePathname } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 interface AuthContextType {
   user: User | null;
@@ -43,17 +43,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!loading) {
-      if (!user && pathname !== "/login") {
-        router.push("/login");
-      } else if (user && pathname === "/login") {
-        router.push("/");
+      if (!user && pathname !== '/login') {
+        router.push('/login');
+      } else if (user && pathname === '/login') {
+        router.push('/');
       }
     }
   }, [user, loading, pathname, router]);
 
   const logout = async () => {
     await signOut(auth);
-    router.push("/login");
+    router.push('/login');
   };
 
   // Show a loading spinner while checking initial auth state
@@ -69,13 +69,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   // If not authenticated and trying to access a protected route, render nothing (effect will redirect)
-  if (!user && pathname !== "/login") {
+  if (!user && pathname !== '/login') {
     return null;
   }
 
-  return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, loading, logout }}>{children}</AuthContext.Provider>;
 }

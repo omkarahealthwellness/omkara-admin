@@ -3,7 +3,14 @@
  * These define the "chrome" of the site — everything not product-specific.
  */
 import { z } from 'zod';
-import { HexColor, FocalPoint, BorderRadius, NavIcon, TokenizedString, MediaAssetSchema } from './primitives';
+import {
+  HexColor,
+  FocalPoint,
+  BorderRadius,
+  NavIcon,
+  TokenizedString,
+  MediaAssetSchema,
+} from './primitives';
 
 // ─── Store Settings ─────────────────────────────────────────────────────────
 
@@ -34,11 +41,9 @@ export const NavigationItemSchema = z
     id: z.string().uuid(), // [locked]
     label: z.string().min(1).max(30), // [content]
     icon: NavIcon, // [config] — from closed icon set
-    url: z
-      .string()
-      .refine((val) => /^(https?:\/\/|tel:|mailto:)/.test(val), {
-        message: 'URL must start with https://, http://, tel:, or mailto:',
-      }), // [content] — protocol-whitelisted (blocks javascript: injection)
+    url: z.string().refine((val) => /^(https?:\/\/|tel:|mailto:)/.test(val), {
+      message: 'URL must start with https://, http://, tel:, or mailto:',
+    }), // [content] — protocol-whitelisted (blocks javascript: injection)
     visible: z.boolean().default(true), // [content]
     sortOrder: z.number().int().min(0), // [config]
   })

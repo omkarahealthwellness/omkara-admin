@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Menu, CloudUpload, Bell } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sidebar } from "./sidebar";
-import { PublishButton } from "./publish-button";
-import { useAuth } from "@/components/providers/auth-provider";
+import { Menu, CloudUpload, Bell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sidebar } from './sidebar';
+import { PublishButton } from './publish-button';
+import { useAuth } from '@/components/providers/auth-provider';
 
 export function Topbar() {
   const { user } = useAuth();
@@ -36,7 +36,7 @@ export function Topbar() {
 
         <div className="flex items-center gap-x-4 lg:gap-x-6">
           <PublishButton />
-          
+
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
             <span className="sr-only">View notifications</span>
@@ -44,7 +44,7 @@ export function Topbar() {
 
           {/* Profile dropdown placeholder */}
           <div className="h-8 w-8 rounded-full bg-primary/10 text-primary border border-primary/20 overflow-hidden flex items-center justify-center text-xs font-bold uppercase">
-            {user?.email?.charAt(0) || "A"}
+            {user?.email?.charAt(0) || 'A'}
           </div>
         </div>
       </div>

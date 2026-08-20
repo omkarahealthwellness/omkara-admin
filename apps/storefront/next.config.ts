@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@omkara/core-schemas", "@omkara/ui-tokens"],
+  transpilePackages: ['@omkara/core-schemas', '@omkara/ui-tokens'],
   async headers() {
     return [
       {
@@ -33,8 +33,9 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; img-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev",
-          }
+            value:
+              "default-src 'self'; img-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' cdn.jsdelivr.net omkara-cdn.pages.dev",
+          },
         ],
       },
       {

@@ -1,52 +1,38 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Menu, ShoppingCart } from "lucide-react";
+import Link from 'next/link';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { getManifest } from '@/lib/kv-manifest';
+import { CartTrigger } from '@/components/cart/cart-trigger';
 
-export function Header() {
+export async function Header() {
+  const manifest = await getManifest();
+  const logo = manifest?.store.logo.url;
+  const storeName = manifest?.store.businessName || 'OMKARA';
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center px-4 md:px-8 justify-between">
-        {/* Mobile Nav */}
-        <div className="flex items-center md:hidden">
-          <Sheet>
-            <SheetTrigger className="md:hidden -ml-2 inline-flex h-9 w-9 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <SheetTitle>Menu</SheetTitle>
-              <nav className="flex flex-col gap-4 mt-6">
-                <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">Home</Link>
-                <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">Products</Link>
-                <Link href="/about" className="text-lg font-medium hover:text-primary transition-colors">Our Heritage</Link>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
+    <header className="app-header flex items-center justify-between px-4 md:px-8 h-16 md:h-20 max-w-7xl mx-auto w-full bg-[#2C1A0F] text-[#FDF5E6]">
+      <div className="flex-1 flex items-center justify-start">
+        {logo && (
+          <Link href="/">
+            <div className="h-8 md:h-10 w-24 relative overflow-hidden brightness-0 invert sepia-[.5] hue-rotate-[10deg] saturate-[3] drop-shadow-md">
+              <OptimizedImage
+                src={logo}
+                alt={storeName}
+                className="object-contain object-left w-full h-full"
+              />
+            </div>
+          </Link>
+        )}
+      </div>
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="font-serif text-2xl font-bold tracking-tight text-primary">Omkara</span>
+      <div className="flex-1 flex items-center justify-center">
+        <Link href="/">
+          <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest uppercase text-[#FDF5E6] drop-shadow-sm">
+            {storeName}
+          </span>
         </Link>
+      </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-          <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
-          <Link href="/about" className="hover:text-primary transition-colors">Our Heritage</Link>
-        </nav>
-
-        {/* Cart */}
-        <div className="flex items-center">
-          <Button variant="ghost" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Shopping Cart</span>
-            <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold">
-              0
-            </span>
-          </Button>
-        </div>
+      <div className="flex-1 flex items-center justify-end text-[#FFFFF0]">
+        <CartTrigger />
       </div>
     </header>
   );

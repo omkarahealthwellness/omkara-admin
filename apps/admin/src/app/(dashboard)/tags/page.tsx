@@ -1,13 +1,23 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase/config";
-import { Tag } from "@omkara/core-schemas";
-import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2, Tag as TagIcon, Leaf, Flame, Sparkles, Droplet, Shield } from "lucide-react";
-import { TagEditor } from "./tag-editor";
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import { Tag } from '@omkara/core-schemas';
+import { Button } from '@/components/ui/button';
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Tag as TagIcon,
+  Leaf,
+  Flame,
+  Sparkles,
+  Droplet,
+  Shield,
+} from 'lucide-react';
+import { TagEditor } from './tag-editor';
 
 const ICON_MAP = {
   leaf: Leaf,
@@ -23,13 +33,13 @@ export default function TagsPage() {
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
 
   const { data: tags = [], isLoading } = useQuery({
-    queryKey: ["tags"],
+    queryKey: ['tags'],
     staleTime: 1000 * 60 * 15, // 15 minutes
     queryFn: async () => {
-      const q = query(collection(db, "tags"), orderBy("name", "asc"));
+      const q = query(collection(db, 'tags'), orderBy('name', 'asc'));
       const snap = await getDocs(q);
-      return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Tag));
-    }
+      return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Tag);
+    },
   });
 
   const handleCreate = () => {
@@ -47,7 +57,9 @@ export default function TagsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
-          <p className="text-muted-foreground mt-1">Manage badges and properties applied to products.</p>
+          <p className="text-muted-foreground mt-1">
+            Manage badges and properties applied to products.
+          </p>
         </div>
         <Button onClick={handleCreate}>
           <Plus className="mr-2 h-4 w-4" /> Add Tag
@@ -83,24 +95,24 @@ export default function TagsPage() {
                   const Icon = ICON_MAP[tag.icon as keyof typeof ICON_MAP] || TagIcon;
                   return (
                     <tr key={tag.id} className="hover:bg-muted/30 transition-colors">
-                      <td className="px-6 py-4 font-medium flex items-center gap-2">
-                        {tag.name}
-                      </td>
+                      <td className="px-6 py-4 font-medium flex items-center gap-2">{tag.name}</td>
                       <td className="px-6 py-4">
                         <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-muted w-fit">
                           <Icon className="h-3.5 w-3.5" />
                           {tag.icon}
                         </span>
                       </td>
-                      <td className="px-6 py-4 font-mono text-muted-foreground">
-                        {tag.id}
-                      </td>
+                      <td className="px-6 py-4 font-mono text-muted-foreground">{tag.id}</td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-2">
                           <Button variant="ghost" size="icon" onClick={() => handleEdit(tag)}>
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-destructive hover:text-destructive"
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -114,11 +126,7 @@ export default function TagsPage() {
         </div>
       </div>
 
-      <TagEditor 
-        open={isEditorOpen} 
-        onOpenChange={setIsEditorOpen} 
-        tag={editingTag} 
-      />
+      <TagEditor open={isEditorOpen} onOpenChange={setIsEditorOpen} tag={editingTag} />
     </div>
   );
 }

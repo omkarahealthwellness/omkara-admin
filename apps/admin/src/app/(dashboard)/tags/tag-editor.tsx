@@ -1,17 +1,24 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/config";
-import { Tag, TagSchema } from "@omkara/core-schemas";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
-import { Loader2, Save } from "lucide-react";
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import { Tag, TagSchema } from '@omkara/core-schemas';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from '@/components/ui/sheet';
+import { Loader2, Save } from 'lucide-react';
 
 interface TagEditorProps {
   open: boolean;
@@ -19,21 +26,26 @@ interface TagEditorProps {
   tag: Tag | null;
 }
 
-const ICONS = ["🌱", "🔥", "✨", "💧", "🛡️"];
+const ICONS = ['🌱', '🔥', '✨', '💧', '🛡️'];
 
 export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
   const queryClient = useQueryClient();
   const isEditing = !!tag;
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<Tag>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Tag>({
     resolver: zodResolver(TagSchema),
     defaultValues: {
-      id: "",
-      name: "",
-      icon: "🌱",
-      color: "#16a34a",
+      id: '',
+      name: '',
+      icon: '🌱',
+      color: '#16a34a',
       sortOrder: 0,
-    }
+    },
   });
 
   useEffect(() => {
@@ -41,10 +53,10 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
       reset(tag);
     } else {
       reset({
-        id: "tag_" + Date.now().toString(),
-        name: "",
-        icon: "🌱",
-        color: "#16a34a",
+        id: 'tag_' + Date.now().toString(),
+        name: '',
+        icon: '🌱',
+        color: '#16a34a',
         sortOrder: 0,
       });
     }
@@ -53,18 +65,23 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
   const mutation = useMutation({
     mutationFn: async (data: Tag) => {
       // Auto-generate slug style ID if missing or just a timestamp
-      if (!data.id || data.id.startsWith("tag_1")) {
-        data.id = "tag_" + data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      if (!data.id || data.id.startsWith('tag_1')) {
+        data.id =
+          'tag_' +
+          data.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)+/g, '');
       }
-      await setDoc(doc(db, "tags", data.id), data, { merge: true });
+      await setDoc(doc(db, 'tags', data.id), data, { merge: true });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tags"] });
+      queryClient.invalidateQueries({ queryKey: ['tags'] });
       onOpenChange(false);
     },
     onError: (error: Error) => {
-      alert("Failed to save tag: " + error.message);
-    }
+      alert('Failed to save tag: ' + error.message);
+    },
   });
 
   const onSubmit = (data: Tag) => {
@@ -75,9 +92,9 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-md overflow-y-auto" side="right">
         <SheetHeader className="mb-6">
-          <SheetTitle>{isEditing ? "Edit Tag" : "New Tag"}</SheetTitle>
+          <SheetTitle>{isEditing ? 'Edit Tag' : 'New Tag'}</SheetTitle>
           <SheetDescription>
-            {isEditing ? "Update tag details." : "Create a new tag to highlight products."}
+            {isEditing ? 'Update tag details.' : 'Create a new tag to highlight products.'}
           </SheetDescription>
         </SheetHeader>
 
@@ -85,26 +102,28 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Tag Name *</Label>
-              <Input {...register("name")} placeholder="e.g. Organic" />
+              <Input {...register('name')} placeholder="e.g. Organic" />
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label>Icon Emoji (Max 2 chars) *</Label>
-              <Input {...register("icon")} placeholder="e.g. 🌱" maxLength={2} />
+              <Input {...register('icon')} placeholder="e.g. 🌱" maxLength={2} />
               {errors.icon && <p className="text-sm text-destructive">{errors.icon.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label>Tag Color (Hex) *</Label>
-              <Input {...register("color")} type="color" className="h-10 p-1 cursor-pointer" />
+              <Input {...register('color')} type="color" className="h-10 p-1 cursor-pointer" />
               {errors.color && <p className="text-sm text-destructive">{errors.color.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label>Sort Order</Label>
-              <Input type="number" {...register("sortOrder", { valueAsNumber: true })} />
-              {errors.sortOrder && <p className="text-sm text-destructive">{errors.sortOrder.message}</p>}
+              <Input type="number" {...register('sortOrder', { valueAsNumber: true })} />
+              {errors.sortOrder && (
+                <p className="text-sm text-destructive">{errors.sortOrder.message}</p>
+              )}
             </div>
           </div>
 
@@ -113,7 +132,11 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
               Cancel
             </Button>
             <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+              {mutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="mr-2 h-4 w-4" />
+              )}
               Save Tag
             </Button>
           </SheetFooter>

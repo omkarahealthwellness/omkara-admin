@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { getCachedManifest } from "@/lib/manifest-cache";
+import { useEffect } from 'react';
+import { getCachedManifest } from '@/lib/manifest-cache';
 
 export function StorefrontHydrator() {
   useEffect(() => {
@@ -9,6 +9,6 @@ export function StorefrontHydrator() {
     // so that client-side components (like Cart) have instant access
     getCachedManifest().catch(console.error);
   }, []);
-  
+
   return null;
 }

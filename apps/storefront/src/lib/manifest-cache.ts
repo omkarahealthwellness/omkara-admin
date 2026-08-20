@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Manifest } from "@omkara/core-schemas";
-import { fetchManifestAction, fetchManifestHashAction } from "./manifest-actions";
+import { Manifest } from '@omkara/core-schemas';
+import { fetchManifestAction, fetchManifestHashAction } from './manifest-actions';
 
-const CACHE_KEY = "omkara_manifest_cache";
+const CACHE_KEY = 'omkara_manifest_cache';
 
 interface CacheEntry {
   data: Manifest;
@@ -12,7 +12,7 @@ interface CacheEntry {
 }
 
 export async function getCachedManifest(): Promise<Manifest | null> {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
 
   try {
     // 1. Fetch server hash (tiny read)
@@ -35,14 +35,14 @@ export async function getCachedManifest(): Promise<Manifest | null> {
       const newEntry: CacheEntry = {
         data: fullManifest,
         contentHash: serverHash,
-        cachedAt: new Date().toISOString()
+        cachedAt: new Date().toISOString(),
       };
       localStorage.setItem(CACHE_KEY, JSON.stringify(newEntry));
       return fullManifest;
     }
     return null;
   } catch (error) {
-    console.error("Browser cache error:", error);
+    console.error('Browser cache error:', error);
     return null;
   }
 }

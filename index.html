@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMKARA | Menu</title>
+    <meta name="description" content="Fresh food. Honest ingredients. Bikaner se.">
+
+    <!-- Google Fonts as fallback, assuming Le Jour Serif will be added via CSS @font-face if provided -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Compact Sticky Header (Dark Theme) -->
+    <header class="app-header" id="app-header">
+        <div class="header-left">
+            <img src="logo.png" alt="OMKARA" class="header-logo">
+        </div>
+        <div class="header-center">
+            <!-- Centered brand text for premium feel -->
+            <span class="header-brand-text">OMKARA</span>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn cart-trigger" aria-label="Cart" onclick="openCart()">
+                🛒 <span class="cart-badge" id="header-cart-badge" style="display:none;">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- First Screen -->
+    <section class="hero-search-section">
+        <h1 class="hero-brand">OMKARA</h1>
+        <p class="hero-tagline">SEHAT BHI. SWAAD BHI.</p>
+
+        <h2 class="hero-greeting">Explore our menu</h2>
+
+        <h3 class="explore-label" style="margin-top: 24px;">EXPLORE OMKARA</h3>
+    </section>
+
+    <!-- Sticky Category Dropdown -->
+    <nav class="category-dropdown-wrapper" id="category-dropdown-wrapper">
+        <select class="category-dropdown" id="category-dropdown" onchange="navigateCategory(this.value)">
+            <!-- Options injected by JS -->
+        </select>
+    </nav>
+
+    <!-- Editorial Pages (Hidden by default) -->
+    <main class="editorial-page" id="page-about" style="display: none;">
+        <div class="editorial-hero">
+            <h1 class="editorial-title">About Us</h1>
+            <p class="editorial-subtitle">The story of OMKARA</p>
+        </div>
+        <div class="editorial-content">
+            <div class="editorial-image-wrapper">
+                <img src="About-Us.png" alt="About OMKARA" class="editorial-image">
+            </div>
+            <p class="editorial-text">Welcome to OMKARA, where traditional wisdom meets modern wellness. Born in the
+                vibrant heart of Bikaner, our mission is to redefine healthy eating by making it exceptionally
+                delicious, accessible, and deeply nourishing.</p>
+            <p class="editorial-text">We believe that food should not only fuel your body but also comfort your soul.
+                Every bowl, smoothie, and salad we create is crafted with the freshest, highest-quality ingredients,
+                ensuring that you never have to compromise between taste and health.</p>
+            <h2 class="editorial-heading">Our Roots</h2>
+            <p class="editorial-text">Rooted in the rich culinary heritage of Rajasthan, OMKARA infuses global health
+                trends with a subtle, unmistakable Bikaneri soul. We celebrate the raw vitality of sprouted grains, the
+                vibrant energy of fresh fruits, and the comforting indulgence of premium blends.</p>
+            <div class="back-to-menu-wrapper" style="margin-top: 40px;">
+                <a href="index.html" class="back-btn">← Back to Menu</a>
+            </div>
+        </div>
+    </main>
+
+    <main class="editorial-page" id="page-philosophy" style="display: none;">
+        <div class="editorial-hero">
+            <h1 class="editorial-title">Our Philosophy</h1>
+            <p class="editorial-subtitle">Sehat bhi. Swaad bhi.</p>
+        </div>
+        <div class="editorial-content">
+            <h2 class="editorial-heading">The Balance</h2>
+            <p class="editorial-text">At OMKARA, our core philosophy is simple: <strong>Sehat bhi. Swaad bhi.</strong>
+                We reject the notion that healthy food must be bland or boring. True wellness comes from balance, joy,
+                and satisfaction.</p>
+
+            <h2 class="editorial-heading">Quality First</h2>
+            <p class="editorial-text">We are obsessed with quality. From hand-picking the freshest seasonal fruits to
+                meticulously sprouting our grains, every step of our process is designed to maximize nutrition and
+                elevate flavor. We don't use artificial preservatives or hidden additives.</p>
+
+            <h2 class="editorial-heading">Community & Sustainability</h2>
+            <p class="editorial-text">Food connects us. We strive to create an inclusive experience that resonates with
+                our local community while maintaining world-class standards. We are committed to mindful sourcing and
+                sustainable packaging, doing our part to respect the earth that provides our nourishment.</p>
+            <div class="back-to-menu-wrapper" style="margin-top: 40px;">
+                <a href="index.html" class="back-btn">← Back to Menu</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Menu Container (Continuous Scroll) -->
+    <main class="menu-container" id="menu-container">
+        <!-- All 12 categories injected here by JS -->
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="site-footer" id="more-section">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand-col">
+                    <img src="logo.png" alt="OMKARA Logo" class="footer-logo">
+                    <div class="footer-brand">OMKARA</div>
+                    <div class="footer-tagline">SEHAT BHI. SWAAD BHI.</div>
+                    <p class="footer-desc">Fresh food. Honest ingredients. Bikaner se.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>COMPANY</h4>
+                    <ul>
+                        <li><a href="?page=about">About Us</a></li>
+                        <li><a href="?page=philosophy">Our Philosophy</a></li>
+                        <li><a href="#">Visit Bikaner</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>SUPPORT & PARTNER</h4>
+                    <ul>
+                        <li><a href="#">Help & Support</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Partner with Us</a></li>
+                        <li><a href="mailto:omkara.health.wellness@gmail.com">hello@omkara.com</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social-col">
+                    <h4>CONNECT</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="YouTube">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z">
+                                </path>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="footer-contact">8560078208<br>Bikaner, Rajasthan</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 OMKARA Bikaner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart-wrapper" id="floating-cart-wrapper">
+        <!-- Default State -->
+        <button class="floating-whatsapp-btn" id="floating-whatsapp-btn" onclick="openCart()">
+            <span class="icon">💬</span> WhatsApp Order
+        </button>
+        <!-- Active State -->
+        <button class="floating-cart-btn" id="floating-cart-btn" style="display: none;" onclick="openCart()">
+            <span class="cart-summary">🛒 <span id="float-cart-count">0</span> ITEMS &middot; ₹<span
+                    id="float-cart-total">0</span></span>
+            <span class="cart-action">VIEW CART &rarr;</span>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <nav class="bottom-tab-nav">
+        <a href="index.html" class="tab-item active">
+            <span class="icon">⌂</span>
+            <span class="label">Home</span>
+        </a>
+        <a href="#sprouts" class="tab-item">
+            <span class="icon">🍽</span>
+            <span class="label">Explore</span>
+        </a>
+        <a href="#" class="tab-item" onclick="openCart(); return false;">
+            <span class="icon">🛒</span>
+            <span class="label">Cart</span>
+        </a>
+        <a href="#more-section" class="tab-item">
+            <span class="icon">☰</span>
+            <span class="label">More</span>
+        </a>
+    </nav>
+
+    <!-- Product Detail Modal / Bottom Sheet -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="bottom-sheet" id="product-sheet-content">
+            <button class="close-btn" aria-label="Close" onclick="closeModal('product-modal')">&times;</button>
+            <div class="modal-image-container">
+                <img id="modal-product-image" src="" alt="">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-product-name" class="modal-title"></h2>
+                <p id="modal-product-desc" class="modal-desc"></p>
+                <div class="modal-ingredients" id="modal-product-ingredients-container">
+                    <strong>Ingredients:</strong> <span id="modal-product-ingredients"></span>
+                </div>
+                <div class="size-selector" id="modal-size-selector"></div>
+                <div class="order-controls">
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="updateModalQuantity(-1)">−</button>
+                        <span class="qty-display" id="modal-quantity">1</span>
+                        <button class="qty-btn" onclick="updateModalQuantity(1)">+</button>
+                    </div>
+                    <div class="price-display">₹<span id="modal-total-price">0</span></div>
+                </div>
+                <button class="primary-btn order-btn" id="modal-add-to-cart-btn">ADD TO CART &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Bottom Sheet -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="bottom-sheet cart-sheet">
+            <button class="close-btn" aria-label="Close" onclick="closeModal('cart-modal')">&times;</button>
+            <div class="cart-header">
+                <h2>Your Order</h2>
+            </div>
+            <div class="cart-items-container" id="cart-items-container">
+                <!-- Cart items injected here -->
+            </div>
+            <div class="cart-empty-state" id="cart-empty-state">
+                <span class="empty-icon">🛒</span>
+                <h3>Cart abhi khaali hai.</h3>
+                <p>Explore our menu and add some fresh goodness!</p>
+                <button class="secondary-btn" onclick="closeModal('cart-modal')">Browse Menu</button>
+            </div>
+            <div class="cart-footer" id="cart-footer" style="display: none;">
+                <div class="cart-subtotal">
+                    <span>Subtotal</span>
+                    <span class="subtotal-amount">₹<span id="cart-subtotal-val">0</span></span>
+                </div>
+                <button class="whatsapp-checkout-btn" id="whatsapp-checkout-btn">
+                    ORDER ON WHATSAPP &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/menu.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

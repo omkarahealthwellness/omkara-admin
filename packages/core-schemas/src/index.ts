@@ -48,13 +48,7 @@ export {
   WhatsAppTemplatesSchema,
   UIConfigSchema,
 } from './store';
-export type {
-  StoreSettings,
-  NavigationItem,
-  Hero,
-  WhatsAppTemplates,
-  UIConfig,
-} from './store';
+export type { StoreSettings, NavigationItem, Hero, WhatsAppTemplates, UIConfig } from './store';
 
 // Manifest schema
 export {

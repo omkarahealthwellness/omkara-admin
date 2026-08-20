@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { getManifest, getManifestHash } from "./kv-manifest";
+import { getManifest, getManifestHash } from './kv-manifest';
 
 export async function fetchManifestAction() {
   return await getManifest();

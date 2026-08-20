@@ -123,7 +123,7 @@ export function mockManifest(overrides: Partial<Manifest> = {}): Manifest {
     publishedAt: new Date().toISOString(),
     store: {
       businessName: 'Test Store',
-      logoUrl: 'https://res.cloudinary.com/test/image/upload/v1/logo.webp',
+      logo: { url: 'https://res.cloudinary.com/test/image/upload/v1/logo.webp' },
       tagline: 'Fresh & Healthy',
       phone: '9876543210',
       social: {},
@@ -173,7 +173,7 @@ export function dummyBrandManifest(): Manifest {
   return mockManifest({
     store: {
       businessName: 'DummyCo',
-      logoUrl: 'https://res.cloudinary.com/test/image/upload/v1/dummy-logo.webp',
+      logo: { url: 'https://res.cloudinary.com/test/image/upload/v1/dummy-logo.webp' },
       tagline: 'Everything you need',
       phone: '5551234567',
       social: { facebook: 'https://facebook.com/dummyco' },

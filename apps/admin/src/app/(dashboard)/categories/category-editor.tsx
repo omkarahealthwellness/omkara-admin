@@ -1,22 +1,28 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/config";
-import { Category, CategorySchema } from "@omkara/core-schemas";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
-import { Loader2, Save } from "lucide-react";
-import { ImageUpload } from "@/components/ui/image-upload";
-import { z } from "zod";
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import { Category, CategorySchema } from '@omkara/core-schemas';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from '@/components/ui/sheet';
+import { Loader2, Save } from 'lucide-react';
+import { z } from 'zod';
 
 const FormSchema = CategorySchema.extend({
-  slug: z.string().optional().or(z.literal("")),
+  slug: z.string().optional().or(z.literal('')),
 });
 
 interface CategoryEditorProps {
@@ -29,19 +35,26 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
   const queryClient = useQueryClient();
   const isEditing = !!category;
 
-  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<Category>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<Category>({
     resolver: zodResolver(FormSchema) as any,
     defaultValues: {
-      id: "",
-      name: "",
-      slug: "",
+      id: '',
+      name: '',
+      slug: '',
       image: undefined,
       visible: true,
       sortOrder: 0,
       displayLimit: 12,
-      layoutStyle: "rail",
-      seeAllLabel: "See all →",
-    }
+      layoutStyle: 'rail',
+      seeAllLabel: 'See all →',
+    },
   });
 
   useEffect(() => {
@@ -49,15 +62,15 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
       reset(category);
     } else {
       reset({
-        id: "cat_" + Date.now().toString(),
-        name: "",
-        slug: "",
+        id: 'cat_' + Date.now().toString(),
+        name: '',
+        slug: '',
         image: undefined,
         visible: true,
         sortOrder: 0,
         displayLimit: 12,
-        layoutStyle: "rail",
-        seeAllLabel: "See all →",
+        layoutStyle: 'rail',
+        seeAllLabel: 'See all →',
       });
     }
   }, [category, reset]);
@@ -66,17 +79,20 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
     mutationFn: async (data: Category) => {
       // Auto-generate slug if empty
       if (!data.slug) {
-        data.slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        data.slug = data.name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)+/g, '');
       }
-      await setDoc(doc(db, "categories", data.id), data, { merge: true });
+      await setDoc(doc(db, 'categories', data.id), data, { merge: true });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       onOpenChange(false);
     },
     onError: (error: Error) => {
-      alert("Failed to save category: " + error.message);
-    }
+      alert('Failed to save category: ' + error.message);
+    },
   });
 
   const onSubmit = (data: Category) => {
@@ -87,9 +103,9 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-md overflow-y-auto" side="right">
         <SheetHeader className="mb-6">
-          <SheetTitle>{isEditing ? "Edit Category" : "New Category"}</SheetTitle>
+          <SheetTitle>{isEditing ? 'Edit Category' : 'New Category'}</SheetTitle>
           <SheetDescription>
-            {isEditing ? "Update category details." : "Create a new collection for your products."}
+            {isEditing ? 'Update category details.' : 'Create a new collection for your products.'}
           </SheetDescription>
         </SheetHeader>
 
@@ -97,7 +113,7 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Category Name *</Label>
-              <Input {...register("name")} placeholder="e.g. Lentils" />
+              <Input {...register('name')} placeholder="e.g. Lentils" />
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
@@ -105,23 +121,21 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
 
             <div className="space-y-2">
               <Label>Sort Order</Label>
-              <Input type="number" {...register("sortOrder", { valueAsNumber: true })} />
+              <Input type="number" {...register('sortOrder', { valueAsNumber: true })} />
             </div>
 
             <div className="space-y-2">
               <Label>Image URL</Label>
-              <ImageUpload
-                repo="products"
-                value={watch("image.url") || ""}
-                onChange={(url) => setValue("image.url", url, { shouldValidate: true })}
-              />
-              {errors.image?.url && <p className="text-sm text-destructive">{errors.image.url.message}</p>}
-              <p className="text-xs text-muted-foreground">Upload an image for the category.</p>
+              <Input {...register('image.url')} placeholder="https://cdn.jsdelivr.net/gh/..." />
+              {errors.image?.url && (
+                <p className="text-sm text-destructive">{errors.image.url.message}</p>
+              )}
+              <p className="text-xs text-muted-foreground">Paste jsDelivr link from Omkara CDN.</p>
             </div>
 
             <div className="space-y-2">
               <Label>Image Alt Text</Label>
-              <Input {...register("image.alt")} placeholder="Describe the image" />
+              <Input {...register('image.alt')} placeholder="Describe the image" />
             </div>
           </div>
 
@@ -130,7 +144,11 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
               Cancel
             </Button>
             <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+              {mutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="mr-2 h-4 w-4" />
+              )}
               Save Category
             </Button>
           </SheetFooter>

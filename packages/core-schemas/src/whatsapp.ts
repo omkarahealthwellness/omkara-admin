@@ -40,10 +40,7 @@ function formatLine(line: CartLine): string {
  * Replace whitelisted tokens in a template string.
  * Unknown tokens are left as-is (they should have been blocked at save time).
  */
-function substituteTokens(
-  template: string,
-  values: Record<string, string>,
-): string {
+function substituteTokens(template: string, values: Record<string, string>): string {
   return template.replace(/\{\{([^}]+)\}\}/g, (match, key: string) => {
     const token = `{{${key}}}`;
     if (WHATSAPP_TOKENS.includes(token as (typeof WHATSAPP_TOKENS)[number])) {

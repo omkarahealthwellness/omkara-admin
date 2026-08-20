@@ -16,42 +16,42 @@ for **license compliance** and **future update tracking**.
 
 ### Admin Dashboard Shell
 
-| Property | Value |
-|---|---|
-| **Source** | `Kiranism/next-shadcn-dashboard-starter` |
-| **License** | MIT |
-| **Commit** | *(to be filled during Phase 0.3)* |
-| **Components Taken** | Sidebar layout, header, data-table primitives, form patterns, dark/light theme |
+| Property                | Value                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------- |
+| **Source**              | `Kiranism/next-shadcn-dashboard-starter`                                         |
+| **License**             | MIT                                                                              |
+| **Commit**              | _(to be filled during Phase 0.3)_                                                |
+| **Components Taken**    | Sidebar layout, header, data-table primitives, form patterns, dark/light theme   |
 | **Components Stripped** | Clerk auth (replaced with Firebase), Kanban board, Chat, AI-chat, Billing module |
-| **Notes** | Clerk completely removed; Firebase Auth guard wired in its place |
+| **Notes**               | Clerk completely removed; Firebase Auth guard wired in its place                 |
 
 ### Storefront UI Blocks
 
-| Property | Value |
-|---|---|
-| **Source** | `shadcnspace/ecommerce-shadcn-nextjs-template` |
-| **License** | MIT |
-| **Commit** | *(to be filled during Phase 0.3)* |
-| **Components Taken** | ProductCard layout, Hero section, Category section, shop grid structure |
+| Property                | Value                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------- |
+| **Source**              | `shadcnspace/ecommerce-shadcn-nextjs-template`                                          |
+| **License**             | MIT                                                                                     |
+| **Commit**              | _(to be filled during Phase 0.3)_                                                       |
+| **Components Taken**    | ProductCard layout, Hero section, Category section, shop grid structure                 |
 | **Components Stripped** | Framer Motion (all imports), Wishlist, Payment/checkout backend, Pages Router structure |
-| **Notes** | Ported to App Router; all Framer Motion replaced with CSS transitions |
+| **Notes**               | Ported to App Router; all Framer Motion replaced with CSS transitions                   |
 
 ### Cart → WhatsApp Pattern (Reference Only)
 
-| Property | Value |
-|---|---|
-| **Source** | `LucasAlvaresA/shadcn-ui-store` |
-| **License** | MIT |
-| **Commit** | *(to be filled during Phase 0.3)* |
-| **Components Taken** | Pattern reference only (message construction, cart-drawer pattern) |
-| **Components Stripped** | N/A (studied, not forked) |
-| **Notes** | Reimplemented from scratch against our own schema and WhatsApp serializer |
+| Property                | Value                                                                     |
+| ----------------------- | ------------------------------------------------------------------------- |
+| **Source**              | `LucasAlvaresA/shadcn-ui-store`                                           |
+| **License**             | MIT                                                                       |
+| **Commit**              | _(to be filled during Phase 0.3)_                                         |
+| **Components Taken**    | Pattern reference only (message construction, cart-drawer pattern)        |
+| **Components Stripped** | N/A (studied, not forked)                                                 |
+| **Notes**               | Reimplemented from scratch against our own schema and WhatsApp serializer |
 
 ### Video Facade
 
-| Property | Value |
-|---|---|
-| **Source** | `lite-youtube-embed` (npm) |
-| **License** | Apache-2.0 |
-| **Version** | *(to be filled)* |
-| **Notes** | ~2KB; zero YouTube JS until user taps play |
+| Property    | Value                                      |
+| ----------- | ------------------------------------------ |
+| **Source**  | `lite-youtube-embed` (npm)                 |
+| **License** | Apache-2.0                                 |
+| **Version** | _(to be filled)_                           |
+| **Notes**   | ~2KB; zero YouTube JS until user taps play |

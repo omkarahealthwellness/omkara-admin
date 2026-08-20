@@ -13,7 +13,11 @@
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\""
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "deploy:cdn": "npm run build --workspace=omkara-cdn && wrangler pages deploy apps/cdn/dist --project-name omkara-cdn",
+    "deploy:storefront": "npx @cloudflare/next-on-pages --experimental-minify -p apps/storefront && wrangler pages deploy apps/storefront/.vercel/output/static --project-name omkara-store",
+    "deploy:admin": "npx @cloudflare/next-on-pages --experimental-minify -p apps/admin && wrangler pages deploy apps/admin/.vercel/output/static --project-name omkara-admin",
+    "deploy:all": "npm run deploy:cdn && npm run deploy:storefront && npm run deploy:admin"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",

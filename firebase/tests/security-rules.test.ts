@@ -24,9 +24,9 @@ let testEnv: RulesTestEnvironment;
 beforeAll(async () => {
   // Silence noisy firestore logs during tests
   setLogLevel('error');
-  
+
   const rules = readFileSync(resolve(__dirname, '../firestore.rules'), 'utf8');
-  
+
   testEnv = await initializeTestEnvironment({
     projectId: 'omkara-test-rules',
     firestore: { rules },
@@ -112,7 +112,7 @@ describe('Firestore Security Rules: Products Collection', () => {
     for (let i = 0; i < 51; i++) {
       massivePayload[`field_${i}`] = 'data';
     }
-    
+
     // Fails because keys().size() >= 50
     await assertFails(db.collection('products').doc('p2').set(massivePayload));
   });
@@ -121,25 +121,21 @@ describe('Firestore Security Rules: Products Collection', () => {
 describe('Firestore Security Rules: Audit Log (Append Only)', () => {
   it('allows admin to write an audit entry', async () => {
     const db = getAdminDb();
-    await assertSucceeds(
-      db.collection('audit').doc('log1').set({ action: 'PUBLISH' })
-    );
+    await assertSucceeds(db.collection('audit').doc('log1').set({ action: 'PUBLISH' }));
   });
 
   it('DENIES admin from updating an audit entry', async () => {
     const db = getAdminDb();
     await db.collection('audit').doc('log1').set({ action: 'PUBLISH' });
-    
+
     // Audit logs are immutable — even for admins
-    await assertFails(
-      db.collection('audit').doc('log1').update({ action: 'DELETED' })
-    );
+    await assertFails(db.collection('audit').doc('log1').update({ action: 'DELETED' }));
   });
 
   it('DENIES admin from deleting an audit entry', async () => {
     const db = getAdminDb();
     await db.collection('audit').doc('log1').set({ action: 'PUBLISH' });
-    
+
     // Audit logs are immutable — even for admins
     await assertFails(db.collection('audit').doc('log1').delete());
   });

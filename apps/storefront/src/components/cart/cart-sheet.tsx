@@ -1,13 +1,20 @@
-"use client";
+'use client';
 
-import { useCartStore } from "@/lib/store/cart";
-import { useCartSheet } from "@/lib/store/ui";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Trash2, ShoppingBag, Minus, Plus } from "lucide-react";
-import { getCachedManifest } from "@/lib/manifest-cache";
-import { useEffect, useState } from "react";
-import { Manifest } from "@omkara/core-schemas";
+import { useCartStore } from '@/lib/store/cart';
+import { useCartSheet } from '@/lib/store/ui';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Trash2, ShoppingBag, Minus, Plus } from 'lucide-react';
+import { getCachedManifest } from '@/lib/manifest-cache';
+import { useEffect, useState } from 'react';
+import { Manifest } from '@omkara/core-schemas';
 
 export function CartSheet() {
   const { isCartSheetOpen, closeSheet } = useCartSheet();
@@ -17,25 +24,27 @@ export function CartSheet() {
 
   useEffect(() => {
     setMounted(true);
-    getCachedManifest().then(m => {
-      if (m) setManifest(m);
-    }).catch(console.error);
+    getCachedManifest()
+      .then((m) => {
+        if (m) setManifest(m);
+      })
+      .catch(console.error);
   }, []);
 
-  const totalAmount = lines.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
+  const totalAmount = lines.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0);
 
   const handleCheckout = () => {
     // Generate WhatsApp link
     let text = `*New Order - Omkara*\n\n`;
-    lines.forEach(item => {
+    lines.forEach((item) => {
       text += `- ${item.quantity}x ${item.productName} (₹${(item.unitPrice / 100).toFixed(2)})\n`;
     });
     text += `\n*Total: ₹${(totalAmount / 100).toFixed(2)}*\n\n`;
     text += `Please confirm my order.`;
 
     // Use phone number from manifest
-    const phone = manifest?.store?.whatsappNumber || manifest?.store?.phone || "919999999999";
-    const cleanPhone = phone.replace(/\D/g, "");
+    const phone = manifest?.store?.whatsappNumber || manifest?.store?.phone || '919999999999';
+    const cleanPhone = phone.replace(/\D/g, '');
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/${cleanPhone}?text=${encoded}`, '_blank');
   };
@@ -44,13 +53,18 @@ export function CartSheet() {
 
   return (
     <Sheet open={isCartSheetOpen} onOpenChange={closeSheet}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col h-full bg-sandstone/10 border-l-0 sm:border-l" side="right">
+      <SheetContent
+        className="w-full sm:max-w-md flex flex-col h-full bg-sandstone/10 border-l-0 sm:border-l"
+        side="right"
+      >
         <SheetHeader className="pb-4 border-b">
           <SheetTitle className="flex items-center gap-2 font-serif text-2xl text-crimson-spice">
             <ShoppingBag className="h-6 w-6" /> Your Cart
           </SheetTitle>
           <SheetDescription>
-            {lines.length === 0 ? "Your cart is currently empty." : `You have ${lines.length} items in your cart.`}
+            {lines.length === 0
+              ? 'Your cart is currently empty.'
+              : `You have ${lines.length} items in your cart.`}
           </SheetDescription>
         </SheetHeader>
 
@@ -62,32 +76,39 @@ export function CartSheet() {
             </div>
           ) : (
             lines.map((item) => (
-              <div key={item.lineId} className="flex bg-white p-3 rounded-lg border shadow-sm items-center gap-4">
+              <div
+                key={item.lineId}
+                className="flex bg-white p-3 rounded-lg border shadow-sm items-center gap-4"
+              >
                 <div className="h-16 w-16 bg-sandstone/20 rounded-md flex-shrink-0 flex items-center justify-center">
                   <span className="text-xs text-muted-foreground">Img</span>
                 </div>
-                
+
                 <div className="flex-1 flex flex-col">
-                  <span className="font-semibold text-gray-900 line-clamp-1">{item.productName}</span>
-                  <span className="text-sm font-bold text-crimson-spice">₹{(item.unitPrice / 100).toFixed(2)}</span>
-                  
+                  <span className="font-semibold text-gray-900 line-clamp-1">
+                    {item.productName}
+                  </span>
+                  <span className="text-sm font-bold text-crimson-spice">
+                    ₹{(item.unitPrice / 100).toFixed(2)}
+                  </span>
+
                   <div className="flex items-center gap-3 mt-2">
                     <div className="flex items-center border rounded h-8 w-24 justify-between px-2">
-                      <button 
+                      <button
                         onClick={() => updateQuantity(item.lineId, Math.max(1, item.quantity - 1))}
                         className="text-muted-foreground hover:text-foreground"
                       >
                         <Minus className="h-3 w-3" />
                       </button>
                       <span className="text-sm font-medium">{item.quantity}</span>
-                      <button 
+                      <button
                         onClick={() => updateQuantity(item.lineId, item.quantity + 1)}
                         className="text-muted-foreground hover:text-foreground"
                       >
                         <Plus className="h-3 w-3" />
                       </button>
                     </div>
-                    <button 
+                    <button
                       onClick={() => removeItem(item.lineId)}
                       className="text-destructive/70 hover:text-destructive text-sm"
                     >
@@ -106,8 +127,10 @@ export function CartSheet() {
               <span>Total</span>
               <span className="text-crimson-spice">₹{(totalAmount / 100).toFixed(2)}</span>
             </div>
-            <p className="text-xs text-muted-foreground text-center">Shipping and taxes calculated at checkout.</p>
-            <Button 
+            <p className="text-xs text-muted-foreground text-center">
+              Shipping and taxes calculated at checkout.
+            </p>
+            <Button
               className="w-full h-14 text-lg font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg"
               onClick={handleCheckout}
             >
