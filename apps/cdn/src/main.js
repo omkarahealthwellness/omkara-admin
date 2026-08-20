@@ -5,16 +5,16 @@ const REPO_NAME = 'omkara-assets-products';
 const BRANCH = 'main';
 
 // DOM Elements
-const tokenInput = document.getElementById('gh-token') as HTMLInputElement;
-const folderInput = document.getElementById('gh-folder') as HTMLInputElement;
-const dropZone = document.getElementById('drop-zone') as HTMLDivElement;
-const fileInput = document.getElementById('file-input') as HTMLInputElement;
-const processingState = document.getElementById('processing-state') as HTMLDivElement;
-const statusText = document.getElementById('status-text') as HTMLParagraphElement;
-const resultCard = document.getElementById('result-card') as HTMLDivElement;
-const resultUrl = document.getElementById('result-url') as HTMLInputElement;
-const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
-const previewImg = document.getElementById('preview-img') as HTMLImageElement;
+const tokenInput = document.getElementById('gh-token');
+const folderInput = document.getElementById('gh-folder');
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const processingState = document.getElementById('processing-state');
+const statusText = document.getElementById('status-text');
+const resultCard = document.getElementById('result-card');
+const resultUrl = document.getElementById('result-url');
+const copyBtn = document.getElementById('copy-btn');
+const previewImg = document.getElementById('preview-img');
 
 // Load saved settings
 const savedToken = localStorage.getItem('omkara_gh_token');
@@ -40,18 +40,17 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-ove
 dropZone.addEventListener('drop', (e) => {
   e.preventDefault();
   dropZone.classList.remove('drag-over');
-  if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+  if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
     handleFile(e.dataTransfer.files[0]);
   }
 });
 fileInput.addEventListener('change', (e) => {
-  const target = e.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    handleFile(target.files[0]);
+  if (e.target.files && e.target.files.length > 0) {
+    handleFile(e.target.files[0]);
   }
 });
 
-async function handleFile(file: File) {
+async function handleFile(file) {
   if (!file.type.startsWith('image/')) {
     alert('Please upload an image file.');
     return;
@@ -89,13 +88,13 @@ async function handleFile(file: File) {
     resultCard.classList.remove('hidden');
     resultUrl.value = cdnUrl;
     previewImg.src = URL.createObjectURL(processedBlob);
-  } catch (error: any) {
+  } catch (error) {
     processingState.classList.add('hidden');
     alert(`Error: ${error.message}`);
   }
 }
 
-async function processImage(file: File): Promise<Blob> {
+async function processImage(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
@@ -135,7 +134,7 @@ async function processImage(file: File): Promise<Blob> {
   });
 }
 
-function blobToBase64(blob: Blob): Promise<string> {
+function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -152,7 +151,7 @@ function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-async function uploadToGitHub(path: string, base64Content: string, token: string): Promise<string> {
+async function uploadToGitHub(path, base64Content, token) {
   const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
   const response = await fetch(apiUrl, {
@@ -185,9 +184,9 @@ copyBtn.addEventListener('click', () => {
 });
 
 // Gallery Logic
-const loadGalleryBtn = document.getElementById('load-gallery-btn') as HTMLButtonElement;
-const galleryGrid = document.getElementById('gallery-grid') as HTMLDivElement;
-const galleryStatus = document.getElementById('gallery-status') as HTMLParagraphElement;
+const loadGalleryBtn = document.getElementById('load-gallery-btn');
+const galleryGrid = document.getElementById('gallery-grid');
+const galleryStatus = document.getElementById('gallery-status');
 
 loadGalleryBtn.addEventListener('click', loadGallery);
 
@@ -230,7 +229,7 @@ async function loadGallery() {
 
     // Filter images
     const images = files.filter(
-      (f: any) =>
+      (f) =>
         f.type === 'file' &&
         (f.name.endsWith('.webp') || f.name.endsWith('.png') || f.name.endsWith('.jpg')),
     );
@@ -243,7 +242,7 @@ async function loadGallery() {
     galleryGrid.classList.remove('hidden');
     galleryStatus.classList.add('hidden');
 
-    images.forEach((file: any) => {
+    images.forEach((file) => {
       // Create jsDelivr URL
       const cdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@${BRANCH}/${file.path}`;
 
@@ -270,7 +269,7 @@ async function loadGallery() {
       item.appendChild(btn);
       galleryGrid.appendChild(item);
     });
-  } catch (error: any) {
+  } catch (error) {
     galleryStatus.textContent = `Error: ${error.message}`;
   }
 }
