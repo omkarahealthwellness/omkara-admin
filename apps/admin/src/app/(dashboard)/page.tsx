@@ -75,21 +75,9 @@ export default function AdminDashboard() {
             <CardDescription>Audit log of recent changes.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="h-9 w-9 rounded-full bg-muted flex items-center justify-center text-xs">
-                    AD
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      Updated Product: Mixed Sprouts
-                    </p>
-                    <p className="text-sm text-muted-foreground">Changed price from ₹49 to ₹59</p>
-                  </div>
-                  <div className="ml-auto font-medium text-xs text-muted-foreground">{i}h ago</div>
-                </div>
-              ))}
+            <div className="flex flex-col items-center justify-center space-y-3 py-8 text-center">
+              <AlertCircle className="h-8 w-8 text-muted-foreground/50" />
+              <p className="text-sm text-muted-foreground">No recent activity found.</p>
             </div>
           </CardContent>
         </Card>

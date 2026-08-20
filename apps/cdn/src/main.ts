@@ -183,3 +183,94 @@ copyBtn.addEventListener('click', () => {
   copyBtn.textContent = 'Copied!';
   setTimeout(() => (copyBtn.textContent = originalText), 2000);
 });
+
+// Gallery Logic
+const loadGalleryBtn = document.getElementById('load-gallery-btn') as HTMLButtonElement;
+const galleryGrid = document.getElementById('gallery-grid') as HTMLDivElement;
+const galleryStatus = document.getElementById('gallery-status') as HTMLParagraphElement;
+
+loadGalleryBtn.addEventListener('click', loadGallery);
+
+async function loadGallery() {
+  const token = tokenInput.value.trim();
+  if (!token) {
+    alert('Please enter your GitHub PAT to view the gallery.');
+    return;
+  }
+
+  galleryGrid.innerHTML = '';
+  galleryGrid.classList.add('hidden');
+  galleryStatus.textContent = 'Loading gallery...';
+  galleryStatus.classList.remove('hidden');
+
+  try {
+    const folder = folderInput.value.trim() ? `${folderInput.value.trim()}/` : '';
+    // Call GitHub API to list contents of the folder
+    const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder.replace(/\/$/, '')}?ref=${BRANCH}`;
+
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Folder not found or empty.');
+      }
+      const err = await response.json();
+      throw new Error(err.message || 'GitHub API load failed');
+    }
+
+    const files = await response.json();
+    if (!Array.isArray(files)) {
+      throw new Error('Expected a directory listing.');
+    }
+
+    // Filter images
+    const images = files.filter(
+      (f: any) =>
+        f.type === 'file' &&
+        (f.name.endsWith('.webp') || f.name.endsWith('.png') || f.name.endsWith('.jpg')),
+    );
+
+    if (images.length === 0) {
+      galleryStatus.textContent = 'No images found in this folder.';
+      return;
+    }
+
+    galleryGrid.classList.remove('hidden');
+    galleryStatus.classList.add('hidden');
+
+    images.forEach((file: any) => {
+      // Create jsDelivr URL
+      const cdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@${BRANCH}/${file.path}`;
+
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+
+      const img = document.createElement('img');
+      img.src = cdnUrl;
+      img.loading = 'lazy';
+
+      const btn = document.createElement('button');
+      btn.textContent = 'Copy Link';
+      btn.onclick = () => {
+        navigator.clipboard.writeText(cdnUrl);
+        btn.textContent = 'Copied!';
+        btn.style.background = '#4CAF50';
+        setTimeout(() => {
+          btn.textContent = 'Copy Link';
+          btn.style.background = '';
+        }, 2000);
+      };
+
+      item.appendChild(img);
+      item.appendChild(btn);
+      galleryGrid.appendChild(item);
+    });
+  } catch (error: any) {
+    galleryStatus.textContent = `Error: ${error.message}`;
+  }
+}

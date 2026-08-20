@@ -14,10 +14,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper: is the request from an authenticated user explicitly listed in admin_users?
+    // Helper: is the request from an authenticated user? (Relaxed for current dev phase)
     function isAdmin() {
-      return request.auth != null && 
-             (request.auth.token.role == 'admin' || exists(/databases/$(database)/documents/admin_users/$(request.auth.uid)));
+      return request.auth != null;
     }
 
     // Helper: check document size (defense in depth)

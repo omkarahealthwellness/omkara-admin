@@ -49,6 +49,17 @@
           </div>
           <img id="preview-img" src="" alt="Preview" />
         </div>
+
+        <div class="card gallery-card mt-4">
+          <div class="gallery-header flex justify-between items-center">
+            <h3>Repository Gallery</h3>
+            <button id="load-gallery-btn" class="secondary-btn">Load Gallery</button>
+          </div>
+          <div id="gallery-grid" class="gallery-grid hidden">
+            <!-- Images will be injected here -->
+          </div>
+          <p id="gallery-status" class="hidden text-sm"></p>
+        </div>
       </main>
     </div>
     <script type="module" src="/src/main.ts"></script>

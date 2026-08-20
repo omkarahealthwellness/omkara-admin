@@ -54,11 +54,11 @@
 
 :root {
   /* Core Brand Colors */
-  --warm-ivory: #FDF5E6;
-  --roasted-cacao: #4A2B18;
-  --espresso-brown: #2C1A0F;
-  --earthy-terracotta: #C05A3E;
-  --muted-sage: #7A8B76;
+  --warm-ivory: #fdf5e6;
+  --roasted-cacao: #4a2b18;
+  --espresso-brown: #2c1a0f;
+  --earthy-terracotta: #c05a3e;
+  --muted-sage: #7a8b76;
 
   /* Theme Mapping */
   --background: var(--warm-ivory);
@@ -71,9 +71,9 @@
   --primary-foreground: var(--warm-ivory);
   --secondary: var(--muted-sage);
   --secondary-foreground: var(--warm-ivory);
-  --muted: #F5E8D3; /* Slightly darker ivory */
-  --muted-foreground: #6B4C3A; /* Lighter cacao */
-  --accent: #F5E8D3;
+  --muted: #f5e8d3; /* Slightly darker ivory */
+  --muted-foreground: #6b4c3a; /* Lighter cacao */
+  --accent: #f5e8d3;
   --accent-foreground: var(--roasted-cacao);
   --destructive: var(--earthy-terracotta);
   --border: var(--roasted-cacao);
@@ -84,14 +84,14 @@
   --chart-2: var(--muted-sage);
   --chart-3: var(--roasted-cacao);
   --chart-4: #8b3a19;
-  --chart-5: #2C1A0F;
+  --chart-5: #2c1a0f;
   --radius: 0.75rem; /* Softly rounded corners */
 
   --sidebar: var(--warm-ivory);
   --sidebar-foreground: var(--roasted-cacao);
   --sidebar-primary: var(--earthy-terracotta);
   --sidebar-primary-foreground: var(--warm-ivory);
-  --sidebar-accent: #F5E8D3;
+  --sidebar-accent: #f5e8d3;
   --sidebar-accent-foreground: var(--roasted-cacao);
   --sidebar-border: var(--roasted-cacao);
   --sidebar-ring: var(--earthy-terracotta);
