@@ -77,6 +77,11 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
 
   const mutation = useMutation({
     mutationFn: async (data: Category) => {
+      if (!auth.currentUser) {
+        alert('You must be signed in to save changes. Please go to /login to sign in.');
+        throw new Error('Unauthenticated user');
+      }
+
       // Auto-generate slug if empty
       if (!data.slug) {
         data.slug = data.name
