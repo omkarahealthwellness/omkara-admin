@@ -1,4 +1,3 @@
-import './style.css';
 
 const REPO_OWNER = 'omkarahealthwellness';
 const REPO_NAME = 'omkara-assets-products';
