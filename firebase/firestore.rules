@@ -16,7 +16,7 @@ service cloud.firestore {
 
     // Helper: is the request from an authenticated user? (Relaxed for current dev phase)
     function isAdmin() {
-      return request.auth != null && request.auth.uid == 'ADMIN_UID_HERE';
+      return request.auth != null;
     }
 
     // Helper: check document size (defense in depth)
