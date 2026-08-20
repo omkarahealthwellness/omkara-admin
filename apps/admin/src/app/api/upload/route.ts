@@ -14,7 +14,7 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as { filename: string; content: string };
     const { filename, content } = body;
 
     if (!filename || !content) {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response.ok) {
-      const err = await response.json();
+      const err = (await response.json()) as any;
       console.error('GitHub API error:', err);
       return NextResponse.json({ error: err.message || 'Upload failed' }, { status: response.status, headers: CORS_HEADERS });
     }

@@ -37,7 +37,7 @@ export async function GET() {
       if (response.status === 404) {
         return NextResponse.json([], { headers: CORS_HEADERS }); // Empty directory
       }
-      const err = await response.json();
+      const err = (await response.json()) as any;
       return NextResponse.json({ error: err.message || 'Gallery load failed' }, { status: response.status, headers: CORS_HEADERS });
     }
 
