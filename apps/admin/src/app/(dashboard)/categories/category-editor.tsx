@@ -62,7 +62,7 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
       reset(category);
     } else {
       reset({
-        id: 'cat_' + Date.now().toString(),
+        id: crypto.randomUUID(),
         name: '',
         slug: '',
         image: undefined,

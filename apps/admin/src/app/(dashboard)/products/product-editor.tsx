@@ -83,7 +83,7 @@ export function ProductEditor({ open, onOpenChange, product }: ProductEditorProp
       reset(p);
     } else {
       reset({
-        id: 'prod_' + Date.now().toString(),
+        id: crypto.randomUUID(),
         name: '',
         slug: '',
         shortDescription: '',

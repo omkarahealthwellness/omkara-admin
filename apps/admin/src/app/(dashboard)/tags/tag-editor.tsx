@@ -53,7 +53,7 @@ export function TagEditor({ open, onOpenChange, tag }: TagEditorProps) {
       reset(tag);
     } else {
       reset({
-        id: 'tag_' + Date.now().toString(),
+        id: crypto.randomUUID(),
         name: '',
         icon: '🌱',
         color: '#16a34a',
