@@ -12,7 +12,7 @@ export async function Header() {
       <div className="flex-1 flex items-center justify-start">
         {logo && (
           <Link href="/">
-            <div className="h-8 md:h-10 w-24 relative overflow-hidden brightness-0 invert sepia-[.5] hue-rotate-[10deg] saturate-[3] drop-shadow-md">
+            <div className="h-10 md:h-12 w-24 relative overflow-hidden drop-shadow-md flex items-center">
               <OptimizedImage
                 src={logo}
                 alt={storeName}
