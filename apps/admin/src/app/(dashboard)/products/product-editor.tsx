@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { db, auth } from '@/lib/firebase/config';
 import { Product, ProductSchema, Category } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

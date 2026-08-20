@@ -2,6 +2,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   transpilePackages: ['@omkara/core-schemas', '@omkara/ui-tokens'],
+  images: {
+    unoptimized: true,
+  },
   async headers() {
     return [
       {
