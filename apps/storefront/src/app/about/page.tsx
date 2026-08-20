@@ -1,11 +1,7 @@
-import { getManifest } from '@/lib/kv-manifest';
 import Link from 'next/link';
 
-export const runtime = 'edge';
-
-export default async function AboutPage() {
-  const manifest = await getManifest();
-  const storeName = manifest?.store.businessName || 'Omkara';
+export default function AboutPage() {
+  const storeName = 'Omkara';
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-20 space-y-8 text-[#4A2B18]">

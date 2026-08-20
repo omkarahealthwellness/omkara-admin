@@ -1,11 +1,7 @@
-import { getManifest } from '@/lib/kv-manifest';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 
-export const runtime = 'edge';
-
-export default async function ContactPage() {
-  const manifest = await getManifest();
-  const store = manifest?.store || {
+export default function ContactPage() {
+  const store = {
     businessName: 'Omkara',
     phone: '+918560078208',
     email: 'omkara.health.wellness@gmail.com',
@@ -13,7 +9,7 @@ export default async function ContactPage() {
     address: 'Bikaner, Rajasthan, India',
   };
 
-  const cleanPhone = (store.whatsappNumber || store.phone || '918560078208').replace(/\D/g, '');
+  const cleanPhone = '918560078208';
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-20 space-y-8 text-[#4A2B18]">

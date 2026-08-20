@@ -8,8 +8,6 @@ import { StorefrontHydrator } from '@/components/layout/storefront-hydrator';
 import { MobileNav } from '@/components/layout/mobile-nav';
 import Script from 'next/script';
 
-export const runtime = 'edge';
-
 const inter = Inter({
   variable: '--font-sans',
   subsets: ['latin'],

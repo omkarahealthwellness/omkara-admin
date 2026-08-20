@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 export default function ShippingPolicyPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-20 space-y-8 text-[#4A2B18]">
