@@ -8,11 +8,11 @@ export async function Header() {
   const logo = manifest?.store.logo.url;
   const storeName = manifest?.store.businessName || 'OMKARA';
   return (
-    <header className="app-header flex items-center justify-between px-4 md:px-8 h-16 md:h-20 max-w-7xl mx-auto w-full bg-[#2C1A0F] text-[#FDF5E6]">
-      <div className="flex-1 flex items-center justify-start">
+    <header className="app-header flex items-center justify-between px-4 md:px-8 h-14 md:h-[72px] max-w-full mx-auto w-full bg-[#2C1A0F] text-[#FDF5E6]">
+      <div className="flex items-center gap-3">
         {logo && (
           <Link href="/">
-            <div className="h-10 md:h-12 w-24 relative overflow-hidden drop-shadow-md flex items-center">
+            <div className="h-8 md:h-10 w-20 md:w-24 relative overflow-hidden flex items-center">
               <OptimizedImage
                 src={logo}
                 alt={storeName}
@@ -23,15 +23,13 @@ export async function Header() {
         )}
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
-        <Link href="/">
-          <span className="font-serif text-2xl md:text-3xl font-bold tracking-widest uppercase text-[#FDF5E6] drop-shadow-sm">
-            {storeName}
-          </span>
-        </Link>
-      </div>
+      <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+        <span className="font-serif text-xl md:text-2xl font-bold tracking-widest uppercase text-[#FDF5E6]">
+          {storeName}
+        </span>
+      </Link>
 
-      <div className="flex-1 flex items-center justify-end text-[#FFFFF0]">
+      <div className="flex items-center gap-2">
         <CartTrigger />
       </div>
     </header>

@@ -23,17 +23,20 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Omkara',
-    default: 'Omkara - Premium Quality Goods',
+    template: '%s | Omkara - Premium Health & Wellness',
+    default: 'Omkara - Premium Health & Wellness from Bikaner',
   },
   description:
-    'Authentically sourced, minimally processed premium goods crafted for your well-being.',
-  keywords: ['premium', 'organic', 'sprouts', 'healthy', 'omkara', 'bikaner'],
-  authors: [{ name: 'Omkara' }],
+    'Discover Omkara\'s range of premium, authentically sourced health foods from Bikaner. Fresh sprouts, organic lentils, and wellness products delivered to your doorstep.',
+  keywords: ['omkara', 'premium health food', 'organic sprouts', 'bikaner', 'wellness', 'healthy food delivery', 'natural food', 'lentils', 'indian health food'],
+  authors: [{ name: 'Omkara Health & Wellness' }],
+  alternates: {
+    canonical: 'https://omkara-store.pages.dev',
+  },
   openGraph: {
-    title: 'Omkara - Premium Quality Goods',
+    title: 'Omkara - Premium Health & Wellness from Bikaner',
     description:
-      'Authentically sourced, minimally processed premium goods crafted for your well-being.',
+      'Authentically sourced, minimally processed premium health foods. Fresh sprouts, organic lentils, and more.',
     url: 'https://omkara-store.pages.dev',
     siteName: 'Omkara',
     images: [
@@ -41,11 +44,17 @@ export const metadata: Metadata = {
         url: '/images/hero_bg.webp',
         width: 1200,
         height: 630,
-        alt: 'Omkara Premium',
+        alt: 'Omkara Premium Health & Wellness',
       },
     ],
     locale: 'en_IN',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Omkara - Premium Health & Wellness from Bikaner',
+    description: 'Authentically sourced premium health foods delivered to your doorstep.',
+    images: ['/images/hero_bg.webp'],
   },
   robots: {
     index: true,

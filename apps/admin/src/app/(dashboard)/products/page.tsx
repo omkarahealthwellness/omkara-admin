@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Product } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
@@ -18,9 +18,10 @@ export default function ProductsPage() {
     queryKey: ['products'],
     staleTime: 1000 * 60 * 2, // 2 minutes
     queryFn: async () => {
-      const q = query(collection(db, 'products'), orderBy('sortOrder', 'asc'));
-      const snap = await getDocs(q);
-      return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Product);
+      const snap = await getDocs(collection(db, 'products'));
+      return snap.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }) as Product)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
     },
   });
 

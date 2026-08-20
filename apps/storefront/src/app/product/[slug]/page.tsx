@@ -4,9 +4,37 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { AddToCartButton } from './add-to-cart-button';
 import { OptimizedImage } from '@/components/ui/optimized-image';
+import type { Metadata } from 'next';
 
 export const runtime = 'edge';
-export const revalidate = 300; // Revalidate every 5 minutes
+export const revalidate = 60;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const manifest = await getManifest();
+  if (!manifest) return {};
+  const product = manifest.products.find((p) => p.slug === params.slug);
+  if (!product) return {};
+  const price = ((product.variants?.[0]?.price || 0) / 100).toFixed(2);
+  return {
+    title: `${product.name} — ₹${price}`,
+    description: product.shortDescription || `Buy ${product.name} from Omkara. Premium quality health food.`,
+    openGraph: {
+      title: `${product.name} — Omkara`,
+      description: product.shortDescription || product.name,
+      images: product.primaryImage?.url ? [{ url: product.primaryImage.url, alt: product.name }] : [],
+      url: `https://omkara-store.pages.dev/product/${product.slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} — Omkara`,
+      description: product.shortDescription || product.name,
+      images: product.primaryImage?.url ? [product.primaryImage.url] : [],
+    },
+    alternates: {
+      canonical: `https://omkara-store.pages.dev/product/${product.slug}`,
+    },
+  };
+}
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const manifest = await getManifest();
@@ -36,7 +64,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
               availability: isOutOfStock
                 ? 'https://schema.org/OutOfStock'
                 : 'https://schema.org/InStock',
-              url: `https://omkara.com/product/${product.slug}`,
+              url: `https://omkara-store.pages.dev/product/${product.slug}`,
             },
           }),
         }}

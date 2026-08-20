@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Category } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
@@ -19,9 +19,10 @@ export default function CategoriesPage() {
     queryKey: ['categories'],
     staleTime: 1000 * 60 * 15, // 15 minutes
     queryFn: async () => {
-      const q = query(collection(db, 'categories'), orderBy('sortOrder', 'asc'));
-      const snap = await getDocs(q);
-      return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Category);
+      const snap = await getDocs(collection(db, 'categories'));
+      return snap.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }) as Category)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
     },
   });
 
