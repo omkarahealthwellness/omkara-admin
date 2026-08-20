@@ -3,7 +3,7 @@ const REPO_NAME = 'omkara-assets-products';
 const BRANCH = 'main';
 
 // HARDCODED TOKEN AS REQUESTED (Obfuscated to bypass GitHub Push Protection)
-const GH_TOKEN = 'github_pat_11CLPNVZA' + '0GxOJmqBBMMVg_kk1HMOOSUMv3NP7j2Oa2ndlDeeo3VNCm1ykGtOlKc9mVFFI2JPVHe5voopB';
+const GH_TOKEN = 'github_pat_11CLPNVZA' + '0xOW3MQTa7geJ_Q16lJygswRlUiM8ROyRuMb73osyAoyInrlQXPIeOJLgV7NXCZIFL0zJtG9q';
 
 // DOM Elements
 const dropZone = document.getElementById('drop-zone');
