@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { db, auth } from '@/lib/firebase/config';
 import { NavigationItemSchema } from '@omkara/core-schemas';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,6 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Loader2, Save, Plus, GripVertical, Trash2 } from 'lucide-react';
-
 import { NavIcon } from '@omkara/core-schemas';
 
 type NavigationData = {
@@ -33,36 +32,46 @@ type NavigationData = {
   }[];
 };
 
+const DEFAULT_NAVIGATION: NavigationData = {
+  items: [
+    {
+      id: '00000000-0000-0000-0000-000000000001',
+      label: 'Home',
+      url: '/',
+      icon: 'HOME' as NavIcon,
+      visible: true,
+      sortOrder: 0,
+    },
+    {
+      id: '00000000-0000-0000-0000-000000000002',
+      label: 'Shop All',
+      url: '/products',
+      icon: 'MENU' as NavIcon,
+      visible: true,
+      sortOrder: 1,
+    },
+  ],
+};
+
 export default function NavigationPage() {
   const queryClient = useQueryClient();
 
-  const { data: nav, isLoading } = useQuery({
+  const { data: nav } = useQuery({
     queryKey: ['settings', 'navigation'],
     staleTime: 1000 * 60 * 30, // 30 minutes
     queryFn: async () => {
-      const snap = await getDoc(doc(db, 'settings', 'navigation'));
-      return snap.exists()
-        ? (snap.data() as NavigationData)
-        : {
-            items: [
-              {
-                id: crypto.randomUUID(),
-                label: 'Home',
-                url: 'https://example.com',
-                icon: 'HOME' as NavIcon,
-                visible: true,
-                sortOrder: 0,
-              },
-              {
-                id: crypto.randomUUID(),
-                label: 'Products',
-                url: 'https://example.com/products',
-                icon: 'MENU' as NavIcon,
-                visible: true,
-                sortOrder: 1,
-              },
-            ],
-          };
+      try {
+        const snap = await getDoc(doc(db, 'settings', 'navigation'));
+        if (snap.exists()) {
+          const loaded = snap.data() as NavigationData;
+          if (Array.isArray(loaded.items) && loaded.items.length > 0) {
+            return loaded;
+          }
+        }
+      } catch (e) {
+        console.warn('Navigation doc fetch error, using defaults', e);
+      }
+      return DEFAULT_NAVIGATION;
     },
   });
 
@@ -73,7 +82,8 @@ export default function NavigationPage() {
     formState: { errors },
   } = useForm<NavigationData>({
     resolver: zodResolver(z.object({ items: z.array(NavigationItemSchema) })) as any,
-    values: nav,
+    defaultValues: DEFAULT_NAVIGATION,
+    values: nav || DEFAULT_NAVIGATION,
   });
 
   const { fields, append, remove, move } = useFieldArray({
@@ -83,14 +93,27 @@ export default function NavigationPage() {
 
   const mutation = useMutation({
     mutationFn: async (data: NavigationData) => {
-      await setDoc(doc(db, 'settings', 'navigation'), data, { merge: true });
+      if (!auth.currentUser) {
+        throw new Error('You must be logged in to save navigation. Please sign in at /login.');
+      }
+
+      const items = data.items.map((item, idx) => ({
+        id: item.id || crypto.randomUUID(),
+        label: item.label.trim(),
+        url: item.url.trim(),
+        icon: item.icon || 'HOME',
+        visible: item.visible !== false,
+        sortOrder: idx,
+      }));
+
+      await setDoc(doc(db, 'settings', 'navigation'), { items }, { merge: true });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['settings', 'navigation'] });
-      alert('Navigation saved successfully!');
+      alert('✅ Navigation saved successfully! Click "Publish Changes" to push live.');
     },
     onError: (error: Error) => {
-      alert('Failed to save navigation: ' + error.message);
+      alert('❌ Failed to save navigation: ' + error.message);
     },
   });
 
@@ -98,29 +121,29 @@ export default function NavigationPage() {
     mutation.mutate(data);
   };
 
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
+  const onInvalid = (fieldErrors: any) => {
+    console.error('Validation errors:', fieldErrors);
+    const messages = Object.entries(fieldErrors)
+      .map(([key, val]: [string, any]) => `${key}: ${JSON.stringify(val)}`)
+      .join('\n');
+    alert('Please correct the following before saving:\n' + messages);
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Navigation</h1>
         <p className="text-muted-foreground mt-1">
-          Manage the top-level links in your storefront header.
+          Manage the top-level links in your storefront.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit as any)}>
+      <form onSubmit={handleSubmit(onSubmit as any, onInvalid)}>
         <Card>
           <CardHeader>
-            <CardTitle>Header Menu</CardTitle>
+            <CardTitle>Header Menu Links</CardTitle>
             <CardDescription>
-              Drag to reorder links. These appear globally across your site.
+              Add or reorder links. Use /path for internal pages (e.g. /products, /about) or https:// for external.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -132,7 +155,8 @@ export default function NavigationPage() {
                 <button
                   type="button"
                   className="cursor-move text-muted-foreground hover:text-foreground"
-                  onClick={() => index > 0 && move(index, index - 1)} // Simple up/down for now instead of full drag-drop
+                  onClick={() => index > 0 && move(index, index - 1)}
+                  title="Move Up"
                 >
                   <GripVertical className="h-5 w-5" />
                 </button>
@@ -153,7 +177,7 @@ export default function NavigationPage() {
                   <div className="col-span-5">
                     <Input
                       {...register(`items.${index}.url`)}
-                      placeholder="/path or https://"
+                      placeholder="/products or https://..."
                       className="bg-background"
                     />
                     {errors.items?.[index]?.url && (
@@ -199,7 +223,7 @@ export default function NavigationPage() {
                 append({
                   id: crypto.randomUUID(),
                   label: '',
-                  url: 'https://',
+                  url: '/',
                   icon: 'HOME',
                   visible: true,
                   sortOrder: fields.length,
@@ -216,7 +240,7 @@ export default function NavigationPage() {
               ) : (
                 <Save className="mr-2 h-4 w-4" />
               )}
-              Save Navigation
+              {mutation.isPending ? 'Saving...' : 'Save Navigation'}
             </Button>
           </CardFooter>
         </Card>

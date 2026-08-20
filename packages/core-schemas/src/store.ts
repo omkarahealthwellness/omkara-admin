@@ -41,8 +41,8 @@ export const NavigationItemSchema = z
     id: z.string().uuid(), // [locked]
     label: z.string().min(1).max(30), // [content]
     icon: NavIcon, // [config] — from closed icon set
-    url: z.string().refine((val) => /^(https?:\/\/|tel:|mailto:)/.test(val), {
-      message: 'URL must start with https://, http://, tel:, or mailto:',
+    url: z.string().refine((val) => /^(https?:\/\/|tel:|mailto:|\/)/.test(val), {
+      message: 'URL must start with https://, http://, tel:, mailto:, or /',
     }), // [content] — protocol-whitelisted (blocks javascript: injection)
     visible: z.boolean().default(true), // [content]
     sortOrder: z.number().int().min(0), // [config]

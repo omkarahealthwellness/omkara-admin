@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { db, auth } from '@/lib/firebase/config';
 import { UIConfigSchema, UIConfig } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,43 +19,69 @@ import {
 } from '@/components/ui/card';
 import { Loader2, Save } from 'lucide-react';
 
+const DEFAULT_THEME: UIConfig = {
+  primaryColor: '#b71c1c',
+  accentColor: '#F4F1EA',
+  borderRadius: 'md',
+};
+
 export default function ThemePage() {
   const queryClient = useQueryClient();
 
-  const { data: theme, isLoading } = useQuery({
+  const { data: theme } = useQuery({
     queryKey: ['settings', 'theme'],
     staleTime: 1000 * 60 * 30, // 30 minutes
     queryFn: async () => {
-      const snap = await getDoc(doc(db, 'settings', 'ui_config'));
-      return snap.exists()
-        ? (snap.data() as UIConfig)
-        : {
-            primaryColor: '#b71c1c',
-            accentColor: '#F4F1EA',
-            borderRadius: 'md' as const,
+      try {
+        const snap = await getDoc(doc(db, 'settings', 'ui_config'));
+        if (snap.exists()) {
+          const loaded = snap.data() as UIConfig;
+          return {
+            ...DEFAULT_THEME,
+            ...loaded,
           };
+        }
+      } catch (e) {
+        console.warn('UI config doc fetch error, using defaults', e);
+      }
+      return DEFAULT_THEME;
     },
   });
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<UIConfig>({
     resolver: zodResolver(UIConfigSchema) as any,
-    values: theme,
+    defaultValues: DEFAULT_THEME,
+    values: theme || DEFAULT_THEME,
   });
+
+  const currentPrimary = watch('primaryColor') || DEFAULT_THEME.primaryColor;
+  const currentRadius = watch('borderRadius') || DEFAULT_THEME.borderRadius;
 
   const mutation = useMutation({
     mutationFn: async (data: UIConfig) => {
-      await setDoc(doc(db, 'settings', 'ui_config'), data, { merge: true });
+      if (!auth.currentUser) {
+        throw new Error('You must be logged in to save theme settings. Please sign in at /login.');
+      }
+
+      const payload: UIConfig = {
+        primaryColor: data.primaryColor?.trim() || '#b71c1c',
+        accentColor: data.accentColor?.trim() || undefined,
+        borderRadius: data.borderRadius || 'md',
+      };
+
+      await setDoc(doc(db, 'settings', 'ui_config'), payload, { merge: true });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['settings', 'theme'] });
-      alert('Theme settings saved successfully!');
+      alert('✅ Theme settings saved successfully! Click "Publish Changes" to update the live store.');
     },
     onError: (error: Error) => {
-      alert('Failed to save theme settings: ' + error.message);
+      alert('❌ Failed to save theme settings: ' + error.message);
     },
   });
 
@@ -63,24 +89,24 @@ export default function ThemePage() {
     mutation.mutate(data);
   };
 
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
+  const onInvalid = (fieldErrors: any) => {
+    console.error('Validation errors:', fieldErrors);
+    const messages = Object.entries(fieldErrors)
+      .map(([key, val]: [string, any]) => `${key}: ${val?.message || 'Invalid'}`)
+      .join('\n');
+    alert('Please correct the following before saving:\n' + messages);
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Theme settings</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Theme Settings</h1>
         <p className="text-muted-foreground mt-1">
           Customize the colors and styling of your storefront.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit as any)}>
+      <form onSubmit={handleSubmit(onSubmit as any, onInvalid)}>
         <Card>
           <CardHeader>
             <CardTitle>Brand Colors</CardTitle>
@@ -89,7 +115,7 @@ export default function ThemePage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label>Primary Color (Hex) *</Label>
                 <div className="flex gap-2 items-center">
@@ -138,23 +164,23 @@ export default function ThemePage() {
             </div>
 
             <div className="p-6 bg-muted/50 rounded-lg border mt-6 flex flex-col items-center gap-4">
-              <h4 className="font-semibold text-sm mb-2 w-full">Live Preview</h4>
+              <h4 className="font-semibold text-sm mb-2 w-full">Live Button Preview</h4>
               <button
                 type="button"
-                className="px-6 py-3 text-white font-medium"
+                className="px-6 py-3 text-white font-medium shadow transition-all"
                 style={{
-                  backgroundColor: theme?.primaryColor || '#000',
+                  backgroundColor: currentPrimary || '#b71c1c',
                   borderRadius:
-                    theme?.borderRadius === 'none'
+                    currentRadius === 'none'
                       ? '0'
-                      : theme?.borderRadius === 'sm'
+                      : currentRadius === 'sm'
                         ? '0.25rem'
-                        : theme?.borderRadius === 'lg'
+                        : currentRadius === 'lg'
                           ? '1rem'
                           : '0.5rem',
                 }}
               >
-                Primary Button
+                Sample Store Button
               </button>
             </div>
           </CardContent>
@@ -165,7 +191,7 @@ export default function ThemePage() {
               ) : (
                 <Save className="mr-2 h-4 w-4" />
               )}
-              Save Theme
+              {mutation.isPending ? 'Saving...' : 'Save Theme'}
             </Button>
           </CardFooter>
         </Card>
