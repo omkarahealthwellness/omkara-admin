@@ -2,8 +2,7 @@ const REPO_OWNER = 'omkarahealthwellness';
 const REPO_NAME = 'omkara-assets-products';
 const BRANCH = 'main';
 
-// HARDCODED TOKEN AS REQUESTED (Obfuscated to bypass GitHub Push Protection)
-const GH_TOKEN = 'github_pat_11CLPNVZA' + '0xOW3MQTa7geJ_Q16lJygswRlUiM8ROyRuMb73osyAoyInrlQXPIeOJLgV7NXCZIFL0zJtG9q';
+
 
 // DOM Elements
 const dropZone = document.getElementById('drop-zone');
@@ -150,27 +149,26 @@ function blobToBase64(blob) {
 }
 
 async function uploadToGitHub(path, base64Content) {
-  const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+  const apiUrl = 'https://omkara-admin.pages.dev/api/upload';
 
   const response = await fetch(apiUrl, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
-      Authorization: `Bearer ${GH_TOKEN}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: `Upload ${path} via Omkara Photo Library`,
+      filename: path,
       content: base64Content,
-      branch: BRANCH,
     }),
   });
 
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.message || 'GitHub API upload failed');
+    throw new Error(err.error || 'API upload failed');
   }
-
-  return `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@${BRANCH}/${path}`;
+  
+  const data = await response.json();
+  return data.url;
 }
 
 copyBtn.addEventListener('click', () => {
@@ -190,22 +188,14 @@ async function loadGallery() {
   galleryStatus.classList.remove('hidden');
 
   try {
-    // List contents of the root folder
-    const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/?ref=${BRANCH}`;
+    // List contents via secure admin API
+    const apiUrl = 'https://omkara-admin.pages.dev/api/gallery';
 
-    const response = await fetch(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${GH_TOKEN}`,
-        Accept: 'application/vnd.github.v3+json',
-      },
-    });
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Photo library not found or empty.');
-      }
       const err = await response.json();
-      throw new Error(err.message || 'GitHub API load failed');
+      throw new Error(err.error || 'Gallery load failed');
     }
 
     const files = await response.json();

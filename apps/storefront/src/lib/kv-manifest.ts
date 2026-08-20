@@ -4,12 +4,12 @@ import { Manifest, ManifestSchema } from '@omkara/core-schemas';
 export async function getManifest(): Promise<Manifest | null> {
   try {
     const { env } = getRequestContext();
-    if (!env || !env.MANIFEST_KV) {
-      console.warn('KV namespace MANIFEST_KV not bound.');
+    if (!env || !env.OMKARA_MANIFESTS) {
+      console.warn('KV namespace OMKARA_MANIFESTS not bound.');
       return null;
     }
 
-    const data = await env.MANIFEST_KV.get('manifest_LATEST.json');
+    const data = await env.OMKARA_MANIFESTS.get('manifest_LATEST.json');
     if (!data) {
       console.warn('manifest_LATEST.json not found in KV');
       return null;
@@ -33,9 +33,9 @@ export async function getManifest(): Promise<Manifest | null> {
 export async function getManifestHash(): Promise<string | null> {
   try {
     const { env } = getRequestContext();
-    if (!env || !env.MANIFEST_KV) return null;
+    if (!env || !env.OMKARA_MANIFESTS) return null;
 
-    const data = await env.MANIFEST_KV.get('manifest_LATEST.json');
+    const data = await env.OMKARA_MANIFESTS.get('manifest_LATEST.json');
     if (!data) return null;
 
     const parsed = JSON.parse(data);
