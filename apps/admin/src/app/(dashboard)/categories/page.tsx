@@ -22,8 +22,7 @@ export default function CategoriesPage() {
     queryKey: ['categories'],
     staleTime: 1000 * 60 * 15, // 15 minutes
     queryFn: async () => {
-      const q = query(collection(db, 'categories'), orderBy('sortOrder', 'asc'));
-      const snap = await getDocs(q);
+      const snap = await getDocs(collection(db, 'categories'));
       return snap.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }) as Category)
         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));

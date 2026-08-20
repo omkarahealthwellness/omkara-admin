@@ -27,7 +27,6 @@ const auth = getAuth(app);
 // Use default memory cache to prevent IndexedDB deadlocks that cause hanging writes
 const db = initializeFirestore(app, {
   ignoreUndefinedProperties: true,
-  experimentalForceLongPolling: true,
 });
 
 // Connect to emulators in development mode if explicitly enabled
