@@ -33,8 +33,9 @@ export function Sidebar() {
 
   return (
     <aside className="w-64 border-r bg-background flex flex-col h-screen sticky top-0 hidden md:flex">
-      <div className="h-16 flex items-center px-6 border-b">
-        <span className="font-serif text-2xl font-bold text-primary">Omkara Admin</span>
+      <div className="h-16 flex items-center gap-2.5 px-5 border-b">
+        <img src="/logo.svg" alt="Omkara" className="h-8 w-8 rounded-full" width={32} height={32} />
+        <span className="font-serif text-xl font-bold text-primary">Omkara</span>
       </div>
 
       <div className="flex-1 py-6 overflow-y-auto">

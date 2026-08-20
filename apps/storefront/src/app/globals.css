@@ -53,47 +53,69 @@
 }
 
 :root {
-  /* Core Brand Colors */
-  --warm-ivory: #fdf5e6;
-  --roasted-cacao: #4a2b18;
-  --espresso-brown: #2c1a0f;
-  --earthy-terracotta: #c05a3e;
-  --muted-sage: #7a8b76;
+  /* ═══════════════════════════════════════════════════
+     Omkara Brand Palette — Bikaner Heritage
+     ═══════════════════════════════════════════════════ */
 
-  /* Theme Mapping */
+  /* Primary Background — Warm Ivory #FDF5E6
+     Main website bg, bottom sheets, modals */
+  --warm-ivory: #FDF5E6;
+
+  /* Primary Text & Brand — Deep Roasted Cacao #4A2B18
+     Headings, logo, mandala art, nav text */
+  --roasted-cacao: #4A2B18;
+
+  /* Dark Theme Header — Espresso Brown #2C1A0F
+     Sticky app header, rich contrast */
+  --espresso-brown: #2C1A0F;
+
+  /* Accent Color — Earthy Terracotta #C05A3E
+     CTAs, WhatsApp button, cart badges, active tabs */
+  --earthy-terracotta: #C05A3E;
+
+  /* Secondary Accent — Muted Sage Green #7A8B76
+     Success states, botanical motifs */
+  --muted-sage: #7A8B76;
+
+  /* Heritage accents */
+  --sandstone: #E8D5B7;
+  --crimson-spice: #C05A3E;
+  --desert-gold: #D4A853;
+
+  /* ═══ Theme Mapping ═══ */
   --background: var(--warm-ivory);
   --foreground: var(--roasted-cacao);
-  --card: var(--warm-ivory);
+  --card: #FFFFFF;
   --card-foreground: var(--roasted-cacao);
-  --popover: var(--warm-ivory);
+  --popover: #FFFFFF;
   --popover-foreground: var(--roasted-cacao);
   --primary: var(--earthy-terracotta);
-  --primary-foreground: var(--warm-ivory);
+  --primary-foreground: #FFFFFF;
   --secondary: var(--muted-sage);
-  --secondary-foreground: var(--warm-ivory);
-  --muted: #f5e8d3; /* Slightly darker ivory */
-  --muted-foreground: #6b4c3a; /* Lighter cacao */
-  --accent: #f5e8d3;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F0E4D1;
+  --muted-foreground: #6B4C3A;
+  --accent: #F0E4D1;
   --accent-foreground: var(--roasted-cacao);
-  --destructive: var(--earthy-terracotta);
-  --border: var(--roasted-cacao);
-  --input: var(--roasted-cacao);
+  --destructive: #D44638;
+  --border: rgba(74, 43, 24, 0.15);
+  --input: rgba(74, 43, 24, 0.2);
   --ring: var(--earthy-terracotta);
 
   --chart-1: var(--earthy-terracotta);
   --chart-2: var(--muted-sage);
   --chart-3: var(--roasted-cacao);
-  --chart-4: #8b3a19;
-  --chart-5: #2c1a0f;
-  --radius: 0.75rem; /* Softly rounded corners */
+  --chart-4: #8B3A19;
+  --chart-5: #2C1A0F;
+  --radius: 0.625rem;
 
   --sidebar: var(--warm-ivory);
   --sidebar-foreground: var(--roasted-cacao);
   --sidebar-primary: var(--earthy-terracotta);
-  --sidebar-primary-foreground: var(--warm-ivory);
-  --sidebar-accent: #f5e8d3;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F0E4D1;
   --sidebar-accent-foreground: var(--roasted-cacao);
-  --sidebar-border: var(--roasted-cacao);
+  --sidebar-border: rgba(74, 43, 24, 0.15);
   --sidebar-ring: var(--earthy-terracotta);
 }
 

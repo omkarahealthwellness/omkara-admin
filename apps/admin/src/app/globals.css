@@ -54,10 +54,10 @@
 }
 
 :root {
-  /* Core Brand Colors */
-  --sandstone: oklch(0.96 0.01 75);
-  --crimson-spice: oklch(0.45 0.15 25);
-  --desert-gold: oklch(0.75 0.15 75);
+  /* Omkara Brand Palette — matches storefront */
+  --sandstone: #E8D5B7;
+  --crimson-spice: #C05A3E;
+  --desert-gold: #D4A853;
 
   /* Theme Mapping */
   --background: oklch(0.98 0.01 75);

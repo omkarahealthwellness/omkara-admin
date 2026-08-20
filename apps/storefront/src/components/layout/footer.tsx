@@ -11,7 +11,10 @@ export async function Footer() {
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
-            <h3 className="font-serif text-2xl font-bold text-primary mb-4">Omkara</h3>
+            <div className="flex items-center gap-2.5 mb-4">
+              <img src="/logo.svg" alt="Omkara" className="h-9 w-9 rounded-full" width={36} height={36} />
+              <h3 className="font-serif text-2xl font-bold text-primary">Omkara</h3>
+            </div>
             <p className="text-muted-foreground max-w-sm">
               Rooted in the heritage of Bikaner, delivering premium health and wellness directly to
               you.
