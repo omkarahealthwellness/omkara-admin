@@ -4,8 +4,6 @@ import {
   getFirestore,
   connectFirestoreEmulator,
   initializeFirestore,
-  persistentLocalCache,
-  persistentMultipleTabManager,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration (Replace with real config in .env)
@@ -26,11 +24,8 @@ const auth = getAuth(app);
 
 // Initialize Firestore with Offline Resilience (Phase 2.6)
 // This is critical: It enables the app to queue writes when offline and resolve them later.
-const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({
-    tabManager: persistentMultipleTabManager(),
-  }),
-});
+// Use default memory cache to prevent IndexedDB deadlocks that cause hanging writes
+const db = initializeFirestore(app, {});
 
 // Connect to emulators in development mode if explicitly enabled
 if (
