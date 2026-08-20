@@ -17,11 +17,15 @@ export function PublishButton() {
 
       const data = (await res.json()) as {
         error?: string;
+        details?: any;
         message?: string;
         version?: string;
         sizeKB?: number;
       };
       if (!res.ok) {
+        if (data.details) {
+          throw new Error(`${data.error}: ${JSON.stringify(data.details, null, 2)}`);
+        }
         throw new Error(data.error || 'Failed to publish');
       }
       return data;

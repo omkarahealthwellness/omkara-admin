@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Product } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
 import { Plus, Search, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { ProductEditor } from './product-editor';
+import dynamic from 'next/dynamic';
+const ProductEditor = dynamic(() => import('./product-editor').then(m => m.ProductEditor), {
+  ssr: false,
+});
 
 export default function ProductsPage() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -18,7 +21,8 @@ export default function ProductsPage() {
     queryKey: ['products'],
     staleTime: 1000 * 60 * 2, // 2 minutes
     queryFn: async () => {
-      const snap = await getDocs(collection(db, 'products'));
+      const q = query(collection(db, 'products'), orderBy('sortOrder', 'asc'));
+      const snap = await getDocs(q);
       return snap.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }) as Product)
         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));

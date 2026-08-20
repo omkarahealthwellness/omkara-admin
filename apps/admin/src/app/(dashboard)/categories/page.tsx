@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Category } from '@omkara/core-schemas';
 import { Button } from '@/components/ui/button';
 import { Plus, Search, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { CategoryEditor } from './category-editor';
+import dynamic from 'next/dynamic';
+const CategoryEditor = dynamic(() => import('./category-editor').then(m => m.CategoryEditor), {
+  ssr: false,
+});
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function CategoriesPage() {
@@ -19,7 +22,8 @@ export default function CategoriesPage() {
     queryKey: ['categories'],
     staleTime: 1000 * 60 * 15, // 15 minutes
     queryFn: async () => {
-      const snap = await getDocs(collection(db, 'categories'));
+      const q = query(collection(db, 'categories'), orderBy('sortOrder', 'asc'));
+      const snap = await getDocs(q);
       return snap.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }) as Category)
         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));

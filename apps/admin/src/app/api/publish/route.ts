@@ -104,10 +104,15 @@ export async function POST(req: NextRequest) {
     const validationResult = ManifestSchema.safeParse(assembledManifest);
     if (!validationResult.success) {
       console.error('Manifest validation failed:', validationResult.error.flatten());
-      // Still proceed with the raw manifest for now (strict validation can be enabled later)
-      // This prevents publish from being completely blocked during initial data entry
+      return NextResponse.json(
+        {
+          error: 'Manifest validation failed',
+          details: validationResult.error.flatten(),
+        },
+        { status: 400 },
+      );
     }
-    const manifestToPublish = validationResult.success ? validationResult.data : assembledManifest;
+    const manifestToPublish = validationResult.data;
 
     // 4. Size Budget Enforcer (Phase 3.3)
     const serialized = JSON.stringify(manifestToPublish);
