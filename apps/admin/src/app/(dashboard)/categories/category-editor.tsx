@@ -77,25 +77,37 @@ export function CategoryEditor({ open, onOpenChange, category }: CategoryEditorP
 
   const mutation = useMutation({
     mutationFn: async (data: Category) => {
-      // Auto-generate slug if empty
-      if (!data.slug) {
-        data.slug = data.name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/(^-|-$)+/g, '');
+      try {
+        alert('Step 1: Starting save. Slug check...');
+        // Auto-generate slug if empty
+        if (!data.slug) {
+          data.slug = data.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)+/g, '');
+        }
+        alert('Step 2: Stripping empty image...');
+        // Strip empty image to prevent Zod url() validation failure
+        if (data.image && (!data.image.url || data.image.url.trim() === '')) {
+          delete (data as any).image;
+        }
+        
+        alert('Step 3: Calling setDoc on Firebase...');
+        await setDoc(doc(db, 'categories', data.id), data, { merge: true });
+        
+        alert('Step 4: setDoc finished successfully!');
+      } catch (err: any) {
+        alert('ERROR IN MUTATION: ' + err.message);
+        throw err;
       }
-      // Strip empty image to prevent Zod url() validation failure
-      if (data.image && (!data.image.url || data.image.url.trim() === '')) {
-        delete (data as any).image;
-      }
-      await setDoc(doc(db, 'categories', data.id), data, { merge: true });
     },
     onSuccess: () => {
+      alert('Step 5: In onSuccess, invalidating queries...');
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       onOpenChange(false);
     },
     onError: (error: Error) => {
-      alert('Failed to save category: ' + error.message);
+      alert('Step X: Failed to save category: ' + error.message);
     },
   });
 
