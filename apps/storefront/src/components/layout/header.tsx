@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import { getManifest } from '@/lib/kv-manifest';
 import { CartTrigger } from '@/components/cart/cart-trigger';
 
-export async function Header() {
-  const manifest = await getManifest();
-  const storeName = manifest?.store.businessName || 'OMKARA';
+export function Header() {
+  const storeName = 'OMKARA';
   return (
     <header className="app-header flex items-center justify-between px-4 md:px-8 h-14 md:h-[64px] w-full bg-[#2C1A0F] text-[#FDF5E6]">
       {/* Logo + Brand Name */}

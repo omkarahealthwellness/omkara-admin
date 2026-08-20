@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
-import { getManifest } from '@/lib/kv-manifest';
 import { ExternalLink } from 'lucide-react';
 
-export async function Footer() {
-  const manifest = await getManifest();
-  const social = manifest?.store.social;
+export function Footer() {
   return (
     <footer className="bg-[#2C1A0F] text-[#FDF5E6] mt-16 pt-12 pb-8">
       <div className="container mx-auto px-4 md:px-8">
@@ -67,39 +64,15 @@ export async function Footer() {
             <p>&copy; {new Date().getFullYear()} Omkara Health. All rights reserved.</p>
           </div>
           <div className="flex items-center gap-4">
-            {social?.instagram && (
-              <a
-                href={social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors flex items-center gap-1"
-              >
-                <ExternalLink className="h-4 w-4" />
-                <span>Instagram</span>
-              </a>
-            )}
-            {social?.facebook && (
-              <a
-                href={social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors flex items-center gap-1"
-              >
-                <ExternalLink className="h-4 w-4" />
-                <span>Facebook</span>
-              </a>
-            )}
-            {social?.youtube && (
-              <a
-                href={social.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors flex items-center gap-1"
-              >
-                <ExternalLink className="h-4 w-4" />
-                <span>YouTube</span>
-              </a>
-            )}
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors flex items-center gap-1"
+            >
+              <ExternalLink className="h-4 w-4" />
+              <span>Instagram</span>
+            </a>
           </div>
           <p className="mt-2 md:mt-0">Made with ❤️ in Bikaner</p>
         </div>

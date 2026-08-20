@@ -1,17 +1,16 @@
-import { getRequestContext } from '@cloudflare/next-on-pages';
+import { getOptionalRequestContext } from '@cloudflare/next-on-pages';
 import { Manifest, ManifestSchemaLoose } from '@omkara/core-schemas';
 
 export async function getManifest(): Promise<Manifest | null> {
   try {
-    const { env } = getRequestContext();
+    const ctx = getOptionalRequestContext();
+    const env = ctx?.env as any;
     if (!env || !env.MANIFEST_KV) {
-      console.warn('KV namespace MANIFEST_KV not bound.');
       return null;
     }
 
     const data = await env.MANIFEST_KV.get('manifest_LATEST.json');
     if (!data) {
-      console.warn('manifest_LATEST.json not found in KV');
       return null;
     }
 
@@ -19,8 +18,6 @@ export async function getManifest(): Promise<Manifest | null> {
     const result = ManifestSchemaLoose.safeParse(parsed);
 
     if (!result.success) {
-      console.error('Manifest validation failed in Storefront:', result.error.flatten());
-      // Return the raw parsed data as a fallback so the site doesn't show "Coming Soon"
       return parsed as Manifest;
     }
 
@@ -33,7 +30,8 @@ export async function getManifest(): Promise<Manifest | null> {
 
 export async function getManifestHash(): Promise<string | null> {
   try {
-    const { env } = getRequestContext();
+    const ctx = getOptionalRequestContext();
+    const env = ctx?.env as any;
     if (!env || !env.MANIFEST_KV) return null;
 
     const data = await env.MANIFEST_KV.get('manifest_LATEST.json');
