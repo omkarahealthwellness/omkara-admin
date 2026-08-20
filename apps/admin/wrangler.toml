@@ -1,9 +1,10 @@
 name = "omkara-admin"
+account_id = "d59cdccc5f8113995cb2ac03851efeb3"
 compatibility_date = "2024-03-20"
 compatibility_flags = ["nodejs_compat"]
 
 # Bind our free-tier KV namespace
 [[kv_namespaces]]
 binding = "MANIFEST_KV"
-id = "omkara_manifests_kv_placeholder_id"
-preview_id = "omkara_manifests_kv_preview_placeholder_id"
+id = "4dabf9b4f7444e17a21e26ea4897ab40"
+
